@@ -1,0 +1,247 @@
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* NAVBAR */
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:70px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 80px;
+
+    background:rgba(0,0,0,0.3);
+    backdrop-filter:blur(10px);
+
+    z-index:1000;
+}
+
+.nav-links{
+    display:flex;
+    list-style:none;
+    gap:30px;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+}
+
+/* HERO */
+
+.hero{
+    height:100vh;
+    position:relative;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.room-bg{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* PROFILE */
+
+.profile-card{
+    position:absolute;
+
+    top:25%;
+    left:15%;
+
+    width:180px;
+    height:220px;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    transition:0.5s;
+}
+
+.profile-card:hover{
+    transform:scale(1.05);
+}
+
+/* LAPTOP */
+
+.laptop{
+    position:absolute;
+
+    top:55%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    text-align:center;
+}
+
+/* BOOKSHELF */
+
+.bookshelf{
+    position:absolute;
+
+    top:15%;
+    right:10%;
+}
+
+/* ACHIEVEMENT */
+
+.achievement-frame{
+    position:absolute;
+
+    top:20%;
+    right:30%;
+}
+
+/* CERTIFICATE */
+
+.certificate-frame{
+    position:absolute;
+
+    top:45%;
+    right:20%;
+}
+
+/* SECTION */
+
+section{
+    min-height:100vh;
+    padding:120px 10%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+/* ABOUT */
+
+.about-content{
+    display:flex;
+    gap:50px;
+    align-items:center;
+}
+
+.about-image img{
+    width:300px;
+    border-radius:20px;
+}
+
+/* SKILLS */
+
+.skills-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:25px;
+}
+
+.skill-card{
+    background:#1e293b;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    transition:0.3s;
+}
+
+.skill-card:hover{
+    transform:translateY(-10px);
+}
+
+/* PROJECTS */
+
+.projects-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(350px,1fr));
+
+    gap:30px;
+}
+
+.project-card{
+    background:#1e293b;
+
+    border-radius:20px;
+
+    overflow:hidden;
+}
+
+/* ACHIEVEMENTS */
+
+.achievement-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:20px;
+}
+
+.achievement-card{
+    background:#1e293b;
+
+    padding:30px;
+
+    border-radius:15px;
+}
+
+/* CERTIFICATES */
+
+.certificate-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(300px,1fr));
+
+    gap:20px;
+}
+
+.certificate-grid img{
+    width:100%;
+    border-radius:15px;
+}
+
+/* CONTACT */
+
+.contact-content{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+}
