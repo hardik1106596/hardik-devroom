@@ -1,28 +1,22 @@
-/* RESET */
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#0b0f19;
+    color:white;
+    font-family:Arial,sans-serif;
 }
 
 html{
     scroll-behavior:smooth;
 }
 
-body{
-    background:#0f172a;
-    color:white;
-    overflow-x:hidden;
-}
-
-/* NAVBAR */
-
-.navbar{
+nav{
     position:fixed;
     top:0;
-    left:0;
     width:100%;
     height:70px;
 
@@ -30,218 +24,131 @@ body{
     justify-content:space-between;
     align-items:center;
 
-    padding:0 80px;
+    padding:0 50px;
 
-    background:rgba(0,0,0,0.3);
+    background:rgba(0,0,0,.4);
     backdrop-filter:blur(10px);
 
     z-index:1000;
 }
 
-.nav-links{
+nav ul{
     display:flex;
+    gap:25px;
     list-style:none;
-    gap:30px;
 }
 
-.nav-links a{
+nav a{
     color:white;
     text-decoration:none;
 }
 
-/* HERO */
-
 .hero{
-    height:100vh;
-    position:relative;
+    min-height:100vh;
 
-    display:flex;
-    justify-content:center;
+    display:grid;
+
+    grid-template-columns:
+    1fr
+    2fr
+    1fr;
+
     align-items:center;
+
+    padding:120px 80px;
 }
-
-.room-bg{
-    position:absolute;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-/* PROFILE */
-
-.profile-card{
-    position:absolute;
-
-    top:25%;
-    left:15%;
-
-    width:180px;
-    height:220px;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    transition:0.5s;
-}
-
-.profile-card:hover{
-    transform:scale(1.05);
-}
-
-/* LAPTOP */
-
-.laptop{
-    position:absolute;
-
-    top:55%;
-    left:50%;
-
-    transform:translate(-50%,-50%);
-
-    text-align:center;
-}
-
-/* BOOKSHELF */
 
 .bookshelf{
     position:absolute;
 
-    top:15%;
-    right:10%;
+    top:100px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    display:flex;
+    gap:10px;
 }
 
-/* ACHIEVEMENT */
+.book{
+    background:#5b3b1f;
 
-.achievement-frame{
-    position:absolute;
+    padding:15px;
 
-    top:20%;
-    right:30%;
+    border-radius:4px;
 }
 
-/* CERTIFICATE */
+.profile img{
+    width:250px;
 
-.certificate-frame{
-    position:absolute;
+    border-radius:20px;
 
-    top:45%;
-    right:20%;
+    border:3px solid #38bdf8;
 }
 
-/* SECTION */
+.laptop{
+    text-align:center;
+}
+
+.laptop h1{
+    font-size:4rem;
+}
+
+.laptop h3{
+    color:#38bdf8;
+
+    margin:15px 0;
+}
+
+#typing{
+    display:block;
+
+    height:30px;
+
+    margin-top:20px;
+}
+
+.buttons{
+    margin-top:30px;
+
+    display:flex;
+    justify-content:center;
+
+    gap:20px;
+}
+
+.buttons a{
+    background:#38bdf8;
+
+    color:black;
+
+    padding:12px 25px;
+
+    text-decoration:none;
+
+    border-radius:8px;
+}
+
+.right-panel{
+    text-align:center;
+}
+
+.clock{
+    font-size:3rem;
+
+    margin-bottom:30px;
+}
+
+.quote{
+    background:#111827;
+
+    padding:20px;
+
+    border-radius:15px;
+}
 
 section{
     min-height:100vh;
-    padding:120px 10%;
-}
 
-.section-title{
-    text-align:center;
-    margin-bottom:60px;
-}
-
-/* ABOUT */
-
-.about-content{
-    display:flex;
-    gap:50px;
-    align-items:center;
-}
-
-.about-image img{
-    width:300px;
-    border-radius:20px;
-}
-
-/* SKILLS */
-
-.skills-grid{
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(250px,1fr));
-
-    gap:25px;
-}
-
-.skill-card{
-    background:#1e293b;
-
-    padding:25px;
-
-    border-radius:15px;
-
-    transition:0.3s;
-}
-
-.skill-card:hover{
-    transform:translateY(-10px);
-}
-
-/* PROJECTS */
-
-.projects-grid{
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(350px,1fr));
-
-    gap:30px;
-}
-
-.project-card{
-    background:#1e293b;
-
-    border-radius:20px;
-
-    overflow:hidden;
-}
-
-/* ACHIEVEMENTS */
-
-.achievement-grid{
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(250px,1fr));
-
-    gap:20px;
-}
-
-.achievement-card{
-    background:#1e293b;
-
-    padding:30px;
-
-    border-radius:15px;
-}
-
-/* CERTIFICATES */
-
-.certificate-grid{
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(300px,1fr));
-
-    gap:20px;
-}
-
-.certificate-grid img{
-    width:100%;
-    border-radius:15px;
-}
-
-/* CONTACT */
-
-.contact-content{
-    display:flex;
-    justify-content:center;
-    gap:30px;
-}
-
-footer{
-    text-align:center;
-    padding:30px;
+    padding:120px;
 }
