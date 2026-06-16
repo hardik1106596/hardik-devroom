@@ -1,3 +1,5 @@
+// ==================== TYPING EFFECT ====================
+
 const words = [
     "Building scalable web app",
     "Java • node.js • Python",
@@ -58,19 +60,49 @@ typeEffect();
 
 
 
-///zoom baba zoom
 
-// gsap.registerPlugin(ScrollTrigger);
+// ==================== SCROLL ANIMATION ====================
 
-// gsap.to("#profileFrame", {
+gsap.registerPlugin(ScrollTrigger);
 
-//     scale: 0,
+let tl = gsap.timeline({
 
-//     scrollTrigger: {
-//         trigger: "#about",
-//         start: "top 20%",
-//         end: "top 90%",
-//         scrub: true,
-//         markers: true
-//     }
-// });
+    scrollTrigger: {
+        trigger: "#about",
+        start: "top 80%",
+        end: "top 10%",
+        scrub: 1.5
+    }
+
+});
+
+tl.to(".profile-img", {
+
+    x: window.innerWidth * 0.42,
+    scale: 1.05,
+    ease: "none"
+
+}, 0);
+
+tl.to(".blur-layer", {
+
+    backdropFilter: "blur(12px)",
+    background: "rgba(0, 3, 9, 0.6)",
+    ease: "none"
+
+}, 0);
+
+tl.to("#about", {
+
+    opacity: 1,
+    pointerEvents: "auto",
+    ease: "none"
+
+}, 0);
+
+tl.to(".about-content", {
+
+    x: 0,
+    ease: "none"
+
+}, 0);
