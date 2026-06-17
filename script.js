@@ -87,3 +87,28 @@ ScrollTrigger.create({
         aboutContent.style.transform = 'translateX(-50px)';
     }
 });
+
+gsap.registerPlugin(ScrollTrigger);
+
+let tl = gsap.timeline({
+
+    scrollTrigger:{
+        trigger:"#skills",
+        start:"top top",
+        end:"+=300",
+        scrub:true,
+        pin:true
+    }
+});
+
+tl.to(".left-door",{
+
+    rotateY:-95
+
+},0);
+
+tl.to(".right-door",{
+
+    rotateY:95
+
+},0);

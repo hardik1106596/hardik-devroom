@@ -251,7 +251,9 @@ body {
 
 #about {
     position: relative;
+    min-height: auto;
     margin-top: 0;
+    margin-bottom: 100px;
     width: 100%;
     height: 100vh;
 
@@ -259,6 +261,7 @@ body {
     align-items: center;
 
     padding-left: 80px;
+    padding-bottom: 80px;
 
 
     z-index: 5;
@@ -384,118 +387,61 @@ body {
 /* ==================== SKILLS ==================== */
 
 #skills{
-    min-height:100vh;
-    margin: 220px 0 0 0;
-    background:#000309;
+    height:100vh;
+    padding-top:160px;
+    min-height: auto;
+    margin:0 auto;
 
+
+    background:black;
+}
+
+.window-scene{
+    margin:0 auto;
+    width:1200px;
+    height:400px;
+    padding-top:0px;
+    position:relative;
     display:flex;
-    flex-direction:column;
     justify-content:center;
-    align-items:center;
+    overflow:hidden;
 
-    padding:80px 40px;
-    box-sizing:border-box;
+    perspective:2000px;
 }
 
-.skills-title{
-    color:white;
+.city{
 
-    font-size:3rem;
+    position:absolute;
+    inset:0;
 
-    margin-bottom:60px;
-
-    font-weight:700;
-}
-
-.shelf-container{
     width:100%;
+    height:100%;
 
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-
-    gap:50px;
-
-    flex-wrap:wrap;
+    object-fit:cover;
 }
 
-.shelf{
-    width:300px;
+.left-door,
+.right-door{
+
+    position:absolute;
+    top:0;
+
+    width:50%;
+    height:100%;
+
+    z-index:10;
+
+    object-fit:cover;
+
+    backface-visibility:hidden;
 }
 
-.shelf h3{
-    text-align:center;
-
-    color:#f5a000;
-
-    font-size:1.4rem;
-
-    margin-bottom:15px;
-
-    font-weight:600;
+.left-door{
+    left:0;
+    transform-origin:left center;
 }
 
-.books{
-    display:flex;
-
-    justify-content:center;
-    align-items:flex-end;
-
-    gap:8px;
-
-    height:180px;
-
-    padding:15px;
-
-    border-bottom:8px solid #5a3410;
-
-    background:rgba(255,255,255,0.03);
-
-    border-radius:8px 8px 0 0;
-}
-
-.books span{
-    width:45px;
-
-    height:120px;
-
-    background:#111827;
-
-    color:white;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    font-size:12px;
-
-    font-weight:600;
-
-    writing-mode:vertical-rl;
-
-    transform:rotate(180deg);
-
-    border-radius:4px 4px 0 0;
-
-    transition:all .3s ease;
-
-    cursor:pointer;
-}
-
-.books span:nth-child(odd){
-    height:130px;
-}
-
-.books span:nth-child(even){
-    height:110px;
-}
-
-.books span:hover{
-    transform:rotate(180deg) translateY(12px);
-
-    background:#f5a000;
-
-    color:#000;
-
-    box-shadow:0 0 20px rgba(245,160,0,.5);
+.right-door{
+    right:0;
+    transform-origin:right center;
 }
