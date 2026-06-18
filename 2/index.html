@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardik Sagadhara — Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#04050d;
+  --bg2:#070812;
+  --surface:rgba(255,255,255,0.04);
+  --border:rgba(255,255,255,0.07);
+  --border-h:rgba(255, 255, 255, 0.15);
+  --accent:#60f05b;
+  --accent2:#a0f127;
+  --accent3:#22d3ee;
+  --text:#dcec03;
+  --muted:rgba(249, 250, 249, 0.44);
+  --muted2:rgba(8, 220, 243, 0.18);
+  --hf:Syne,sans-serif;
+  --bf:'Inter',sans-serif;
+}
+
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--bf);overflow-x:hidden;cursor:none}
+
+/* ── WEBGL CANVAS (fixed behind everything) ── */
+#glcanvas{
+  position:fixed;inset:0;z-index:0;
+  width:100%;height:100%;
+  pointer-events:none;
+}
+
+/* ── NOISE GRAIN ── */
+body::after{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:0.03;mix-blend-mode:overlay;
+}
+
+/* ── CURSOR ── */
+#cur{position:fixed;width:8px;height:8px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s,opacity .2s}
+#cur-ring{position:fixed;width:30px;height:30px;border:1px solid rgba(243, 241, 241, 0.55);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+
+/* ── PROGRESS ── */
+#prog{position:fixed;top:0;left:0;height:1px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));z-index:700;width:0%;transition:width .08s linear}
+
+/* ── NAV ── */
+.topnav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 90px;
+  transition:background .5s,backdrop-filter .5s,padding .4s;
+}
+.topnav.scrolled{background:rgba(4,5,13,.82);backdrop-filter:blur(22px);padding:16px 56px;border-bottom:1px solid var(--border)}
+.logo{font-family:var(--hf);font-size:18px;font-weight:800;letter-spacing:-.04em;color:var(--text);text-decoration:none}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{font-size:11px;padding:8px 20px;border:1px solid var(--border-h);border-radius:40px;color:var(--text);text-decoration:none;transition:all .3s;letter-spacing:.1em;text-transform:uppercase}
+.nav-cta:hover{background:var(--accent);border-color:var(--accent)}
+
+/* ── SIDE DOTS ── */
+.side-dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;gap:10px}
+.sd{width:5px;height:5px;border-radius:50%;background:var(--muted2);border:1px solid var(--border);transition:all .3s;cursor:none;position:relative}
+.sd:hover,.sd.active{background:var(--accent);border-color:var(--accent);transform:scale(1.7)}
+.sd::after{content:attr(data-l);position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:9px;letter-spacing:.12em;color:var(--muted);white-space:nowrap;opacity:0;transition:opacity .2s;text-transform:uppercase;pointer-events:none}
+.sd:hover::after{opacity:1}
+
+/* ── SECTIONS ── */
+section{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 10vw;overflow:hidden}
+section::after{content:'';position:absolute;bottom:0;left:10vw;right:10vw;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+
+/* ── REVEAL SYSTEM ── */
+.rv{opacity:0;transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
+.rv.up{transform:translateY(50px)}
+.rv.left{transform:translateX(-50px)}
+.rv.right{transform:translateX(50px)}
+.rv.zoom{transform:scale(.9)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.18s}.d3{transition-delay:.3s}.d4{transition-delay:.44s}.d5{transition-delay:.6s}
+
+.sec-label{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.sec-label::before{content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0}
+.sec-h{font-family:var(--hf);font-size:clamp(28px,3.8vw,54px);font-weight:800;letter-spacing:-.04em;line-height:1.06;color:var(--text)}
+.sec-h em{font-style:normal;color:transparent;-webkit-text-stroke:1px rgba(91,106,240,.6)}
+
+/* ══════════════ HERO ══════════════ */
+#hero{min-height:100vh;padding:0 -400vw;display:flex;align-items:center;justify-content:space-between;background:transparent}
+#hero::after{display:none}
+
+/* hero text animations */
+.hero-over{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px;margin-bottom:28px;animation:fadeY .8s ease .3s both}
+.hero-over .live{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse-g 2s ease infinite;flex-shrink:0}
+.hero-over .live-ring{width:14px;height:14px;border:1px solid rgba(74,222,128,.4);border-radius:50%;display:flex;align-items:center;justify-content:center}
+@keyframes pulse-g{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.4)}50%{box-shadow:0 0 0 5px rgba(74,222,128,0)}}
+
+.hero-name{
+  font-family:var(--hf);
+  font-size:clamp(58px,9vw,130px);
+  font-weight:800;
+  line-height:.88;
+  letter-spacing:-.06em;
+  color:var(--text);
+  margin-bottom:32px;
+  animation:heroAnim 1.1s cubic-bezier(.22,1,.36,1) .4s both;
+}
+.hero-name .stroke{
+  color:transparent;
+  -webkit-text-stroke:1px rgba(238,238,245,.18);
+  display:block;
+}
+@keyframes heroAnim{from{opacity:0;transform:translateY(60px) skewY(3deg) scale(.97)}to{opacity:1;transform:none}}
+@keyframes fadeY{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+
+.hero-role{font-size:14px;color:var(--muted);line-height:1.8;max-width:440px;font-weight:300;margin-bottom:48px;animation:fadeUp .8s ease .7s both}
+.hero-role strong{color:var(--text);font-weight:500}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp .8s ease .88s both}
+.btn-p{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--accent);color:#fff;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;border:1px solid var(--accent);transition:all .3s;letter-spacing:.02em;position:relative;overflow:hidden}
+.btn-p::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);opacity:0;transition:opacity .3s}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(91,106,240,.4)}
+.btn-p:hover::after{opacity:1}
+.btn-g{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:transparent;color:var(--text);border:1px solid var(--border-h);border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;transition:all .3s;letter-spacing:.02em}
+.btn-g:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+
+.hero-stats{display:flex;gap:44px;margin-top:64px;padding-top:40px;border-top:1px solid var(--border);animation:fadeUp .8s ease 1.05s both}
+.sn{font-family:var(--hf);font-size:38px;font-weight:800;letter-spacing:-.06em;color:var(--text)}
+.sn span{color:var(--accent)}
+.sl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+
+/* hero right card */
+.hero-right{flex-shrink:0;z-index:2;animation:slideRight 1s cubic-bezier(.22,1,.36,1) .5s both}
+@keyframes slideRight{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:none}}
+.photo-wrap{position:relative;width:300px;height:380px}
+.photo-bg{position:absolute;inset:0;border:1px solid var(--border-h);border-radius:14px;background:rgba(255,255,255,.03);overflow:hidden}
+.photo-bg::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(91,106,240,.16) 0%,transparent 55%,rgba(34,211,238,.06) 100%)}
+.photo-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--muted2)}
+.av{width:72px;height:72px;border-radius:50%;background:rgba(91,106,240,.12);border:1px solid rgba(91,106,240,.3);display:flex;align-items:center;justify-content:center;font-family:var(--hf);font-size:24px;font-weight:800;color:var(--accent)}
+.pc{position:absolute;width:16px;height:16px;border-color:var(--accent);border-style:solid}
+.pc.tl{top:-5px;left:-5px;border-width:2px 0 0 2px}
+.pc.tr{top:-5px;right:-5px;border-width:2px 2px 0 0}
+.pc.br{bottom:-5px;right:-5px;border-width:0 2px 2px 0}
+.pc.bl{bottom:-5px;left:-5px;border-width:0 0 2px 2px}
+.hbadge{position:absolute;bottom:-16px;left:-22px;background:rgba(7,8,18,.92);border:1px solid var(--border-h);border-radius:9px;padding:11px 15px;display:flex;align-items:center;gap:9px;backdrop-filter:blur(18px);animation:floatB 3.5s ease-in-out infinite}
+@keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hb-t{font-size:13px;font-weight:500}.hb-s{font-size:11px;color:var(--muted)}
+
+/* scroll hint */
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--muted2);font-size:10px;letter-spacing:.18em;text-transform:uppercase;animation:pulseFade 2.2s ease-in-out infinite}
+.sl-line{width:1px;height:34px;background:linear-gradient(to bottom,var(--accent),transparent);animation:growLine 2.2s ease-in-out infinite}
+@keyframes pulseFade{0%,100%{opacity:.9}50%{opacity:.3}}
+@keyframes growLine{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1);transform-origin:top}56%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── MARQUEE ── */
+.mq{position:relative;z-index:2;padding:20px 0;background:rgba(255, 255, 255, 0.025);border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden}
+.mq-track{display:flex;gap:52px;animation:mq 24s linear infinite;white-space:nowrap}
+.mq-item{font-family:var(--hf);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);display:flex;align-items:center;gap:12px;flex-shrink:0}
+.mq-item .sep{color:var(--accent);font-size:14px}
+@keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── ABOUT ── */
+#about{background:transparent}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:start;margin-top:8px}
+.about-big{font-family:var(--hf);font-size:clamp(24px,3vw,42px);font-weight:800;line-height:1.18;letter-spacing:-.04em;color:var(--text);margin-bottom:24px}
+.about-big em{font-style:normal;color:transparent;-webkit-text-stroke:1px rgba(91,106,240,.58)}
+.about-body{font-size:15px;color:var(--muted);line-height:1.85;font-weight:300}
+.about-body p+p{margin-top:18px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:22px}
+.chip{padding:5px 13px;border:1px solid var(--border);border-radius:40px;font-size:11px;color:var(--muted);transition:all .25s;letter-spacing:.04em}
+.chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:26px}
+.ic{padding:17px 20px;background:rgba(255,255,255,.03);transition:background .25s}
+.ic:hover{background:rgba(91,106,240,.08)}
+.ic-l{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:5px}
+.ic-v{font-size:14px;font-weight:500;color:var(--text)}
+
+/* ── SKILLS ── */
+#skills{background:transparent}
+.sk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:16px}
+.sk-cat{background:rgba(255,255,255,.03);padding:28px 24px;transition:background .3s;position:relative;overflow:hidden}
+.sk-cat::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.sk-cat:hover::after{transform:scaleX(1)}
+.sk-cat:hover{background:rgba(91,106,240,.06)}
+.sk-lbl{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:12px}
+.sk-title{font-family:var(--hf);font-size:19px;font-weight:700;color:var(--text);margin-bottom:18px;letter-spacing:-.02em}
+.sk-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--muted);transition:color .2s,padding-left .25s;cursor:default}
+.sk-row:last-child{border-bottom:none}
+.sk-row:hover{color:var(--text);padding-left:7px}
+.sk-dot{width:3px;height:3px;background:var(--accent);border-radius:50%;opacity:0;transition:opacity .2s}
+.sk-row:hover .sk-dot{opacity:1}
+
+/* ── FEATURED PROJECT ── */
+#featured{background:transparent}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;margin-top:16px}
+.browser-wrap{border-radius:12px;overflow:hidden;border:1px solid var(--border-h);background:rgba(255,255,255,.03);transition:transform .5s cubic-bezier(.22,1,.36,1),box-shadow .5s}
+.browser-wrap:hover{transform:translateY(-8px) scale(1.015);box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 60px rgba(91,106,240,.12)}
+.bbar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)}
+.bd{width:9px;height:9px;border-radius:50%}
+.bd.r{background:#FF5F57}.bd.y{background:#FFBD2E}.bd.g{background:#28CA41}
+.burl{flex:1;height:20px;background:var(--bg2);border-radius:3px;margin-left:6px;padding:0 9px;display:flex;align-items:center;font-size:10px;color:var(--muted2);letter-spacing:.05em}
+.bcontent{padding:18px;background:linear-gradient(135deg,rgba(91,106,240,.1),transparent 70%);display:flex;flex-direction:column;gap:10px}
+.bmock-nav{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.bmock-logo{font-family:var(--hf);font-size:14px;font-weight:700;color:var(--text)}
+.bmock-links{display:flex;gap:10px}
+.bmock-lk{width:34px;height:6px;background:var(--border-h);border-radius:3px}
+.bmock-hero{padding:14px 0;display:flex;flex-direction:column;gap:9px}
+.bh1{height:12px;background:rgba(238,238,245,.13);border-radius:2px;width:65%}
+.bh2{height:8px;background:rgba(238,238,245,.07);border-radius:2px;width:44%}
+.bh3{height:8px;background:rgba(238,238,245,.04);border-radius:2px;width:28%}
+.bbtns{display:flex;gap:7px;margin-top:4px}
+.bbtna{height:26px;width:86px;background:rgba(91,106,240,.55);border-radius:3px}
+.bbtnb{height:26px;width:68px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:3px}
+.bcards{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.bcard{height:58px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px}
+.bcard:first-child{border-color:rgba(91,106,240,.3)}
+
+.feat-tag2{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:rgba(91,106,240,.12);border:1px solid rgba(91,106,240,.28);border-radius:40px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+.feat-title2{font-family:var(--hf);font-size:clamp(26px,3.5vw,44px);font-weight:800;line-height:1.06;letter-spacing:-.04em;color:var(--text);margin-bottom:16px}
+.feat-desc2{font-size:14px;color:var(--muted);line-height:1.82;font-weight:300;margin-bottom:22px}
+.tech-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px}
+.tp{padding:4px 10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:4px;font-size:11px;color:var(--muted);font-family:monospace;letter-spacing:.04em;transition:all .2s}
+.tp:hover{border-color:var(--accent);color:var(--accent)}
+.feat-mets{display:flex;gap:24px;padding:18px 0;border-top:1px solid var(--border);margin-bottom:24px}
+.fm-n{font-family:var(--hf);font-size:24px;font-weight:800;letter-spacing:-.04em;color:var(--text)}
+.fm-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-top:2px}
+.feat-btns2{display:flex;gap:9px}
+
+/* ── PROJECTS GRID ── */
+#projects{background:transparent}
+.proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:14px}
+.pcard{background:rgba(255,255,255,.03);padding:30px 26px;transition:background .3s;position:relative;overflow:hidden;cursor:none}
+.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .3s}
+.pcard:hover::before{opacity:1}
+.pcard:hover{background:rgba(91,106,240,.055)}
+.pnum{font-size:10px;font-weight:700;color:var(--muted2);letter-spacing:.22em;margin-bottom:16px;font-family:var(--hf)}
+.ptitle{font-family:var(--hf);font-size:21px;font-weight:700;color:var(--text);letter-spacing:-.025em;margin-bottom:9px;line-height:1.2}
+.pdesc{font-size:13px;color:var(--muted);line-height:1.75;font-weight:300;margin-bottom:20px}
+.pstack{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:22px}
+.ps{padding:3px 8px;background:rgba(91,106,240,.1);border:1px solid rgba(91,106,240,.2);border-radius:3px;font-size:10px;color:var(--accent);font-family:monospace;letter-spacing:.04em}
+.plinks{display:flex;gap:14px}
+.pl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .2s;border-bottom:1px solid transparent;padding-bottom:1px}
+.pl:hover{color:var(--text);border-bottom-color:var(--accent)}
+
+/* ── ACHIEVEMENTS ── */
+#achievements{background:transparent}
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:14px}
+.acard{background:rgba(255,255,255,.03);padding:40px 30px;position:relative;overflow:hidden;transition:background .3s}
+.acard:hover{background:rgba(91,106,240,.06)}
+.acard-glow{position:absolute;bottom:-60px;right:-60px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(91,106,240,.15),transparent 70%);transition:transform .5s;transform:scale(0)}
+.acard:hover .acard-glow{transform:scale(2.5)}
+.aicon{font-size:30px;margin-bottom:16px;display:block}
+.anum{font-family:var(--hf);font-size:52px;font-weight:800;letter-spacing:-.06em;color:var(--text);line-height:1;margin-bottom:5px}
+.anum sup{font-size:24px;color:var(--accent);vertical-align:super}
+.atitle{font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px}
+.adesc{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ── EDUCATION ── */
+#education{background:transparent}
+.edu-card{border:1px solid var(--border-h);border-radius:12px;background:rgba(255,255,255,.03);padding:40px;display:flex;gap:40px;align-items:center;margin-top:14px;position:relative;overflow:hidden;transition:transform .4s,border-color .4s}
+.edu-card:hover{transform:translateY(-4px);border-color:rgba(91,106,240,.38)}
+.edu-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(91,106,240,.07),transparent 55%);pointer-events:none}
+.edu-logo2{width:70px;height:70px;border-radius:10px;background:rgba(91,106,240,.1);border:1px solid rgba(91,106,240,.26);display:flex;align-items:center;justify-content:center;font-family:var(--hf);font-size:20px;font-weight:800;color:var(--accent);flex-shrink:0}
+.edu-body{flex:1}
+.edu-tag3{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:7px}
+.edu-name{font-family:var(--hf);font-size:24px;font-weight:800;color:var(--text);letter-spacing:-.025em;margin-bottom:4px}
+.edu-deg{font-size:13px;color:var(--muted);margin-bottom:16px}
+.edu-meta{display:flex;gap:20px;flex-wrap:wrap}
+.edu-m{font-size:12px;color:var(--muted)}
+.edu-m strong{color:var(--text);font-weight:600}
+.cgpa-box{display:flex;flex-direction:column;align-items:center;gap:3px;padding:22px 30px;border:1px solid rgba(91,106,240,.28);border-radius:10px;background:rgba(91,106,240,.08);flex-shrink:0}
+.cgpa-n{font-family:var(--hf);font-size:40px;font-weight:800;letter-spacing:-.05em;color:var(--accent)}
+.cgpa-l{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* ── CONTACT ── */
+#contact{background:transparent;text-align:center;align-items:center}
+#contact::after{display:none}
+.contact-big2{font-family:var(--hf);font-size:clamp(38px,7vw,100px);font-weight:800;letter-spacing:-.055em;line-height:.9;color:var(--text);margin-bottom:20px}
+.contact-big2 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(91,106,240,.5)}
+.contact-sub{font-size:15px;color:var(--muted);max-width:420px;margin:0 auto 40px;line-height:1.78;font-weight:300}
+.contact-em{font-family:var(--hf);font-size:clamp(17px,2.4vw,28px);font-weight:700;letter-spacing:-.02em;color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(91,106,240,.3);padding-bottom:3px;transition:all .25s;display:inline-block;margin-bottom:48px}
+.contact-em:hover{color:var(--text);border-bottom-color:var(--text)}
+.clinks{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+.cl{display:flex;align-items:center;gap:8px;padding:12px 24px;border:1px solid var(--border-h);border-radius:6px;color:var(--text);text-decoration:none;font-size:12px;font-weight:500;transition:all .3s;background:rgba(255,255,255,.03);letter-spacing:.03em}
+.cl:hover{border-color:var(--accent);color:var(--accent);background:rgba(91,106,240,.07);transform:translateY(-2px)}
+.cl svg{width:16px;height:16px;flex-shrink:0}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:2;padding:24px 10vw;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg2)}
+.f-l{font-size:11px;color:var(--muted2)}
+.f-logo{font-family:var(--hf);font-size:15px;font-weight:800;letter-spacing:-.04em;color:var(--muted2)}
+.f-logo span{color:var(--accent)}
+.f-r{font-size:10px;color:var(--muted2);letter-spacing:.1em;text-transform:uppercase}
+
+/* ── TILT ── */
+.tilt-card{transform-style:preserve-3d;will-change:transform}
+
+/* ── RESPONSIVE ── */
+@media(max-width:920px){
+  section{padding:100px 6vw}
+  .topnav{padding:18px 6vw}
+  .topnav.scrolled{padding:14px 6vw}
+  #hero{padding:0 6vw;flex-direction:column;justify-content:center;padding-top:96px;gap:48px}
+  .hero-right{display:none}
+  .hero-stats{gap:24px}
+  .about-grid,.feat-grid{grid-template-columns:1fr;gap:40px}
+  .sk-grid{grid-template-columns:1fr 1fr}
+  .proj-grid,.ach-grid{grid-template-columns:1fr}
+  .edu-card{flex-direction:column;align-items:flex-start}
+  .side-dots,.nav-links{display:none}
+  footer{flex-direction:column;gap:8px;text-align:center}
+}
+@media(max-width:580px){
+  .sk-grid,.info-grid{grid-template-columns:1fr}
+  .hero-name{font-size:52px}
+}
+@media(prefers-reduced-motion:reduce){
+  .rv{opacity:1;transform:none;transition:none}
+  .hbadge,.scroll-hint,.sl-line{animation:none}
+  .mq-track{animation-play-state:paused}
+}
+</style>
+</head>
+<body>
+
+<canvas id="glcanvas"></canvas>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav class="topnav" id="topnav">
+  <a href="#hero" class="logo">HS<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#featured">Projects</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's Talk</a>
+</nav>
+
+<div class="side-dots" id="sdots">
+  <div class="sd active" data-l="Home" data-t="hero"></div>
+  <div class="sd" data-l="About" data-t="about"></div>
+  <div class="sd" data-l="Skills" data-t="skills"></div>
+  <div class="sd" data-l="Featured" data-t="featured"></div>
+  <div class="sd" data-l="Projects" data-t="projects"></div>
+  <div class="sd" data-l="Achievements" data-t="achievements"></div>
+  <div class="sd" data-l="Education" data-t="education"></div>
+  <div class="sd" data-l="Contact" data-t="contact"></div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left" style="max-width:680px;z-index:2">
+    <div class="hero-over"><div class="live-ring"><div class="live"></div></div>Available for opportunities</div>
+    <h1 class="hero-name">Hardik<br><span class="stroke">Sagadhara</span></h1>
+    <p class="hero-role"><strong>Full Stack Developer</strong> building scalable web applications. From Java backends to React interfaces — I ship things that actually work.</p>
+    <div class="hero-btns">
+      <a href="#featured" class="btn-p">View My Work <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9M7 2.5l3.5 3.5L7 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="#contact" class="btn-g">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="sn"><span class="counter" data-to="300">0</span><span>+</span></div><div class="sl">LeetCode</div></div>
+      <div><div class="sn"><span class="counter" data-to="5">0</span></div><div class="sl">Projects</div></div>
+      <div><div class="sn" style="font-size:28px"><span class="countf" data-to="8.47">0</span></div><div class="sl">CGPA</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="photo-wrap">
+      <div class="photo-bg"><div class="photo-ph"><div class="av">HS</div><p style="font-size:10px;letter-spacing:.1em;text-transform:uppercase">Your Photo Here</p></div></div>
+      <div class="pc tl"></div><div class="pc tr"></div><div class="pc br"></div><div class="pc bl"></div>
+      <div class="hbadge"><span style="font-size:18px">⚡</span><div><div class="hb-t">Open to Work</div><div class="hb-s">Full Stack Roles</div></div></div>
+    </div>
+  </div>
+  <div class="scroll-hint"><div class="sl-line"></div>Scroll</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-track">
+    <span class="mq-item">React<span class="sep">✦</span></span><span class="mq-item">Node.js<span class="sep">✦</span></span><span class="mq-item">Java<span class="sep">✦</span></span><span class="mq-item">Spring Boot<span class="sep">✦</span></span><span class="mq-item">PostgreSQL<span class="sep">✦</span></span><span class="mq-item">JavaScript<span class="sep">✦</span></span><span class="mq-item">REST APIs<span class="sep">✦</span></span><span class="mq-item">Express.js<span class="sep">✦</span></span><span class="mq-item">Firebase<span class="sep">✦</span></span><span class="mq-item">Git<span class="sep">✦</span></span><span class="mq-item">MySQL<span class="sep">✦</span></span><span class="mq-item">Python<span class="sep">✦</span></span>
+    <span class="mq-item">React<span class="sep">✦</span></span><span class="mq-item">Node.js<span class="sep">✦</span></span><span class="mq-item">Java<span class="sep">✦</span></span><span class="mq-item">Spring Boot<span class="sep">✦</span></span><span class="mq-item">PostgreSQL<span class="sep">✦</span></span><span class="mq-item">JavaScript<span class="sep">✦</span></span><span class="mq-item">REST APIs<span class="sep">✦</span></span><span class="mq-item">Express.js<span class="sep">✦</span></span><span class="mq-item">Firebase<span class="sep">✦</span></span><span class="mq-item">Git<span class="sep">✦</span></span><span class="mq-item">MySQL<span class="sep">✦</span></span><span class="mq-item">Python<span class="sep">✦</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-label rv up">About Me</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="about-big rv up d1">I build for the web.<br>I think in <em>systems.</em><br>I ship what matters.</h2>
+      <div class="about-body rv up d2">
+        <p>B.Tech IT student at Dharmsinh Desai University with a strong foundation in full stack development. My work spans React interfaces and Java backends — I care deeply about both the user experience and the architecture underneath.</p>
+        <p>With 300+ LeetCode problems solved and real-world projects deployed for actual businesses, I approach every problem methodically — database design, API architecture, responsive UI.</p>
+      </div>
+      <div class="chips rv up d3">
+        <span class="chip">Problem Solver</span><span class="chip">System Thinker</span><span class="chip">Clean Code</span><span class="chip">Fast Learner</span><span class="chip">Team Player</span>
+      </div>
+    </div>
+    <div class="rv right d2">
+      <div class="info-grid">
+        <div class="ic"><div class="ic-l">University</div><div class="ic-v">DDU, Nadiad</div></div>
+        <div class="ic"><div class="ic-l">Degree</div><div class="ic-v">B.Tech IT</div></div>
+        <div class="ic"><div class="ic-l">CGPA</div><div class="ic-v">8.47</div></div>
+        <div class="ic"><div class="ic-l">Location</div><div class="ic-v">Gujarat, India</div></div>
+        <div class="ic"><div class="ic-l">Focus</div><div class="ic-v">Full Stack</div></div>
+        <div class="ic"><div class="ic-l">Status</div><div class="ic-v" style="color:#4ade80">Open ✓</div></div>
+      </div>
+      <a href="#" class="btn-p" style="width:100%;justify-content:center">Download Resume <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v8M3 7l3 3 3-3M1 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-label rv up">Technical Stack</div>
+  <h2 class="sec-h rv up d1">What I work with</h2>
+  <div class="sk-grid" style="margin-top:16px">
+    <div class="sk-cat rv zoom d1">
+      <div class="sk-lbl">Languages</div><div class="sk-title">Core</div>
+      <div class="sk-row">Java<div class="sk-dot"></div></div>
+      <div class="sk-row">JavaScript<div class="sk-dot"></div></div>
+      <div class="sk-row">Python<div class="sk-dot"></div></div>
+      <div class="sk-row">C++<div class="sk-dot"></div></div>
+      <div class="sk-row">HTML / CSS<div class="sk-dot"></div></div>
+    </div>
+    <div class="sk-cat rv zoom d2">
+      <div class="sk-lbl">Frontend</div><div class="sk-title">UI Layer</div>
+      <div class="sk-row">React.js<div class="sk-dot"></div></div>
+      <div class="sk-row">JavaScript ES6+<div class="sk-dot"></div></div>
+      <div class="sk-row">Responsive Design<div class="sk-dot"></div></div>
+      <div class="sk-row">REST Integration<div class="sk-dot"></div></div>
+      <div class="sk-row">CSS / Grid / Flex<div class="sk-dot"></div></div>
+    </div>
+    <div class="sk-cat rv zoom d3">
+      <div class="sk-lbl">Backend</div><div class="sk-title">Server</div>
+      <div class="sk-row">Node.js<div class="sk-dot"></div></div>
+      <div class="sk-row">Express.js<div class="sk-dot"></div></div>
+      <div class="sk-row">Spring Boot<div class="sk-dot"></div></div>
+      <div class="sk-row">Servlet / JSP<div class="sk-dot"></div></div>
+      <div class="sk-row">JDBC<div class="sk-dot"></div></div>
+    </div>
+    <div class="sk-cat rv zoom d4">
+      <div class="sk-lbl">Database & Tools</div><div class="sk-title">Data</div>
+      <div class="sk-row">MySQL<div class="sk-dot"></div></div>
+      <div class="sk-row">PostgreSQL<div class="sk-dot"></div></div>
+      <div class="sk-row">Firebase<div class="sk-dot"></div></div>
+      <div class="sk-row">Git / GitHub<div class="sk-dot"></div></div>
+      <div class="sk-row">REST APIs<div class="sk-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section id="featured">
+  <div class="sec-label rv up">Featured Project</div>
+  <div class="feat-grid">
+    <div class="browser-wrap rv left d1 tilt-card">
+      <div class="bbar"><div class="bd r"></div><div class="bd y"></div><div class="bd g"></div><div class="burl">basilicabiotech.com</div></div>
+      <div class="bcontent">
+        <div class="bmock-nav"><div class="bmock-logo">Basilica Biotech</div><div class="bmock-links"><div class="bmock-lk"></div><div class="bmock-lk"></div><div class="bmock-lk"></div></div></div>
+        <div class="bmock-hero"><div class="bh1"></div><div class="bh2"></div><div class="bh3"></div><div class="bbtns"><div class="bbtna"></div><div class="bbtnb"></div></div></div>
+        <div class="bcards"><div class="bcard"></div><div class="bcard"></div><div class="bcard"></div></div>
+      </div>
+    </div>
+    <div class="rv right d2">
+      <div class="feat-tag2">Featured — Real Business Project</div>
+      <h2 class="feat-title2">Basilica Biotech<br>Cosmetic Website</h2>
+      <p class="feat-desc2">Production-grade website built for an actual cosmetics business — full admin dashboard, product management, and PostgreSQL-backed data layer. Designed and engineered from scratch.</p>
+      <div class="tech-pills"><span class="tp">Node.js</span><span class="tp">PostgreSQL</span><span class="tp">Express.js</span><span class="tp">HTML/CSS/JS</span><span class="tp">REST API</span></div>
+      <div class="feat-mets">
+        <div><div class="fm-n">Full</div><div class="fm-l">Admin Dashboard</div></div>
+        <div><div class="fm-n">Real</div><div class="fm-l">Business Client</div></div>
+        <div><div class="fm-n">100%</div><div class="fm-l">Responsive</div></div>
+      </div>
+      <div class="feat-btns2">
+        <a href="#" class="btn-p">Live Demo <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1h10v10M1 11L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        <a href="#" class="btn-g">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-label rv up">All Projects</div>
+  <h2 class="sec-h rv up d1">What I've built</h2>
+  <div class="proj-grid">
+    <div class="pcard rv up d1 tilt-card">
+      <div class="pnum">01</div><div class="ptitle">CineVerse</div>
+      <p class="pdesc">Movie discovery platform on TMDB API. Search, save favorites, and explore with a clean responsive interface.</p>
+      <div class="pstack"><span class="ps">React</span><span class="ps">TMDB API</span><span class="ps">JavaScript</span><span class="ps">CSS</span></div>
+      <div class="plinks"><a href="#" class="pl">Live Demo ↗</a><a href="#" class="pl">GitHub →</a></div>
+    </div>
+    <div class="pcard rv up d2 tilt-card">
+      <div class="pnum">02</div><div class="ptitle">Order Management System</div>
+      <p class="pdesc">Full-stack Java web app with Servlet, JSP, JDBC following MVC architecture. Complete order lifecycle with MySQL.</p>
+      <div class="pstack"><span class="ps">Java</span><span class="ps">Servlet</span><span class="ps">JSP</span><span class="ps">JDBC</span><span class="ps">MySQL</span></div>
+      <div class="plinks"><a href="#" class="pl">GitHub →</a></div>
+    </div>
+    <div class="pcard rv up d1 tilt-card">
+      <div class="pnum">03</div><div class="ptitle">Food Delivery App</div>
+      <p class="pdesc">Full stack food delivery platform — browse menus to checkout with complete backend logic and database integration.</p>
+      <div class="pstack"><span class="ps">Full Stack</span><span class="ps">Node.js</span><span class="ps">REST API</span></div>
+      <div class="plinks"><a href="#" class="pl">GitHub →</a></div>
+    </div>
+    <div class="pcard rv up d2 tilt-card">
+      <div class="pnum">04</div><div class="ptitle">Rohit Sharma Profile</div>
+      <p class="pdesc">High-fidelity sports profile showcasing modern frontend — hero sections, stat displays, and responsive layouts.</p>
+      <div class="pstack"><span class="ps">HTML</span><span class="ps">CSS</span><span class="ps">JavaScript</span><span class="ps">Responsive</span></div>
+      <div class="plinks"><a href="#" class="pl">Live Demo ↗</a><a href="#" class="pl">GitHub →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="sec-label rv up">Achievements</div>
+  <h2 class="sec-h rv up d1">Numbers that speak</h2>
+  <div class="ach-grid">
+    <div class="acard rv up d1 tilt-card"><div class="acard-glow"></div>
+      <span class="aicon">⚡</span>
+      <div class="anum"><span class="counter" data-to="300">0</span><sup>+</sup></div>
+      <div class="atitle">LeetCode Problems</div>
+      <p class="adesc">Consistent problem-solving across algorithms, data structures, and system design.</p>
+    </div>
+    <div class="acard rv up d2 tilt-card"><div class="acard-glow"></div>
+      <span class="aicon">🏆</span>
+      <div class="anum">2<sup>★</sup></div>
+      <div class="atitle">CodeChef Rating</div>
+      <p class="adesc">Competitive programming on CodeChef participating in monthly challenges and contests.</p>
+    </div>
+    <div class="acard rv up d3 tilt-card"><div class="acard-glow"></div>
+      <span class="aicon">🎓</span>
+      <div class="anum">8<sup>.47</sup></div>
+      <div class="atitle">Semester CGPA</div>
+      <p class="adesc">Strong academics at DDU while simultaneously building real-world projects.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="sec-label rv up">Education</div>
+  <h2 class="sec-h rv up d1">Where I learned</h2>
+  <div class="edu-card rv zoom d2">
+    <div class="edu-logo2">DDU</div>
+    <div class="edu-body">
+      <div class="edu-tag3">2022 — Present</div>
+      <div class="edu-name">Dharmsinh Desai University</div>
+      <div class="edu-deg">Bachelor of Technology — Information Technology</div>
+      <div class="edu-meta">
+        <div class="edu-m">📍 Nadiad, Gujarat</div>
+        <div class="edu-m">⏱ 4-Year Program</div>
+        <div class="edu-m">Latest SGPA: <strong>8.47</strong></div>
+      </div>
+    </div>
+    <div class="cgpa-box"><div class="cgpa-n">8.47</div><div class="cgpa-l">CGPA</div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-label rv up" style="justify-content:center">Contact</div>
+  <h2 class="contact-big2 rv up d1">Let's build<br><em>something</em><br>together.</h2>
+  <p class="contact-sub rv up d2">Open to full-time roles, freelance projects, and conversations about software and systems.</p>
+  <a href="mailto:hardik@example.com" class="contact-em rv up d3">hardik@example.com</a>
+  <div class="clinks rv up d4">
+    <a href="https://github.com/" target="_blank" class="cl">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      GitHub
+    </a>
+    <a href="https://linkedin.com/" target="_blank" class="cl">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+    <a href="#" class="btn-p" style="border-radius:6px">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 2v9M4 8.5l3.5 3.5L11 8.5M1.5 13h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Resume PDF
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="f-l">© 2025 Hardik Sagadhara</div>
+  <div class="f-logo">HS<span>.</span></div>
+  <div class="f-r">Built from Gujarat, India</div>
+</footer>
+
+<!-- THREE.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════════════════════════════
+// MONT-FORT STYLE WEBGL ANIMATED BACKGROUND
+// Deep fluid 3D wave surface + volumetric light columns + aurora fog
+// ═══════════════════════════════════════════════════════════════════════════════
+(function initWebGL(){
+  const canvas = document.getElementById('glcanvas');
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setClearColor(0x04050d,1);
+  renderer.setSize(innerWidth,innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.2;
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x04050d, 0.018);
+
+  const camera = new THREE.PerspectiveCamera(55, innerWidth/innerHeight, 0.1, 300);
+  camera.position.set(0, 14, 32);
+  camera.lookAt(0, 0, 0);
+
+  // ── WAVE MESH (the main hero surface like mont-fort ocean) ──
+  const GRID = 200;
+  const SIZE = 90;
+  const waveGeo = new THREE.PlaneGeometry(SIZE, SIZE, GRID, GRID);
+  waveGeo.rotateX(-Math.PI/2);
+
+  // store original positions
+  const origPos = Float32Array.from(waveGeo.attributes.position.array);
+
+  const waveMat = new THREE.ShaderMaterial({
+    transparent: true,
+    side: THREE.FrontSide,
+    uniforms:{
+      uTime:     {value:0},
+      uMouse:    {value:new THREE.Vector2(0,0)},
+      uScroll:   {value:0},
+      uColorA:   {value:new THREE.Color(0x0a0f3d)},
+      uColorB:   {value:new THREE.Color(0x1a1060)},
+      uColorC:   {value:new THREE.Color(0x5B6AF0)},
+      uColorD:   {value:new THREE.Color(0x06b6d4)},
+    },
+    vertexShader:`
+      uniform float uTime;
+      uniform vec2 uMouse;
+      uniform float uScroll;
+      varying float vElevation;
+      varying vec2 vUv;
+      varying float vFresnel;
+
+      float wave(vec2 p, float freq, float speed, float amp){
+        return sin(p.x*freq + uTime*speed) * cos(p.y*freq*0.7 + uTime*speed*0.6) * amp;
+      }
+
+      void main(){
+        vUv = uv;
+        vec3 pos = position;
+
+        // multi-layered wave simulation (like ocean surface)
+        float e  = wave(pos.xz, 0.18, 0.55, 1.8);
+             e += wave(pos.xz, 0.32, 0.80, 0.9);
+             e += wave(pos.xz, 0.55, 1.10, 0.5);
+             e += wave(pos.xz, 0.90, 1.40, 0.28);
+             e += wave(pos.xz, 1.40, 0.70, 0.14);
+
+        // mouse ripple
+        vec2 delta = pos.xz - uMouse * 30.0;
+        float dist = length(delta);
+        float ripple = sin(dist * 1.2 - uTime * 3.5) * exp(-dist * 0.18) * 1.4;
+        e += ripple;
+
+        pos.y = e;
+        vElevation = e;
+
+        vec4 mv = modelViewMatrix * vec4(pos,1.0);
+        vFresnel = pow(1.0 - abs(normalize(mv.xyz).z), 3.0);
+        gl_Position = projectionMatrix * mv;
+      }
+    `,
+    fragmentShader:`
+      uniform vec3 uColorA;
+      uniform vec3 uColorB;
+      uniform vec3 uColorC;
+      uniform vec3 uColorD;
+      uniform float uTime;
+      varying float vElevation;
+      varying vec2 vUv;
+      varying float vFresnel;
+
+      void main(){
+        // height-based color blend
+        float t = (vElevation + 2.5) / 5.0;
+        t = clamp(t, 0.0, 1.0);
+
+        vec3 deep   = mix(uColorA, uColorB, vUv.y);
+        vec3 mid    = mix(uColorB, uColorC, smoothstep(0.3,0.7,t));
+        vec3 bright = mix(uColorC, uColorD, smoothstep(0.6,1.0,t));
+
+        vec3 col = mix(deep, mid, smoothstep(0.0,0.5,t));
+        col = mix(col, bright, smoothstep(0.5,1.0,t));
+
+        // foam highlights on wave crests
+        float foam = smoothstep(0.75, 1.0, t) * 0.25;
+        col += foam * vec3(0.5, 0.6, 1.0);
+
+        // fresnel edge glow
+        col += vFresnel * uColorD * 0.18;
+
+        // shimmer pulse
+        float shimmer = sin(vUv.x*40.0 + uTime*2.0) * sin(vUv.y*40.0 - uTime*1.5) * 0.04;
+        col += shimmer * uColorC;
+
+        float alpha = 0.88 + vFresnel * 0.12;
+        gl_FragColor = vec4(col, alpha);
+      }
+    `
+  });
+
+  const wave = new THREE.Mesh(waveGeo, waveMat);
+  wave.position.y = -6;
+  scene.add(wave);
+
+  // ── SECONDARY WAVE (slightly different params, below) ──
+  const wave2Geo = new THREE.PlaneGeometry(SIZE*1.4, SIZE*1.4, 80, 80);
+  wave2Geo.rotateX(-Math.PI/2);
+  const wave2Mat = new THREE.ShaderMaterial({
+    transparent: true,
+    side: THREE.FrontSide,
+    uniforms:{
+      uTime:{value:0},
+      uColorA:{value:new THREE.Color(0x020412)},
+      uColorB:{value:new THREE.Color(0x080c30)},
+    },
+    vertexShader:`
+      uniform float uTime;
+      varying float vE;
+      varying vec2 vUv;
+      float w(vec2 p,float f,float s,float a){return sin(p.x*f+uTime*s)*cos(p.y*f*0.8+uTime*s*0.7)*a;}
+      void main(){
+        vUv=uv;
+        vec3 pos=position;
+        pos.y=w(pos.xz,.12,.4,2.2)+w(pos.xz,.22,.55,1.1)+w(pos.xz,.4,.8,.5);
+        vE=pos.y;
+        gl_Position=projectionMatrix*modelViewMatrix*vec4(pos,1.0);
+      }
+    `,
+    fragmentShader:`
+      uniform vec3 uColorA;
+      uniform vec3 uColorB;
+      varying float vE;varying vec2 vUv;
+      void main(){
+        float t=clamp((vE+2.5)/5.0,0.0,1.0);
+        vec3 c=mix(uColorA,uColorB,t);
+        gl_FragColor=vec4(c,0.7);
+      }
+    `
+  });
+  const wave2 = new THREE.Mesh(wave2Geo, wave2Mat);
+  wave2.position.y = -10;
+  scene.add(wave2);
+
+  // ── VOLUMETRIC LIGHT COLUMNS (like the light beams in mont-fort) ──
+  function makeLightColumn(x, z, colorHex, height, opacity){
+    const geo = new THREE.CylinderGeometry(0.04, 2.5, height, 8, 1, true);
+    const mat = new THREE.MeshBasicMaterial({
+      color: colorHex,
+      transparent: true,
+      opacity: opacity,
+      side: THREE.BackSide,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(x, height/2 - 6, z);
+    return mesh;
+  }
+  const col1 = makeLightColumn(-18, -14, 0x5B6AF0, 50, 0.06);
+  const col2 = makeLightColumn(  0,  -8, 0x8B5CF6, 60, 0.05);
+  const col3 = makeLightColumn( 20, -18, 0x22d3ee, 45, 0.055);
+  const col4 = makeLightColumn(-8,  -22, 0x5B6AF0, 40, 0.04);
+  const col5 = makeLightColumn( 12,  -6, 0x8B5CF6, 55, 0.045);
+  scene.add(col1,col2,col3,col4,col5);
+  const lightCols = [col1,col2,col3,col4,col5];
+
+  // ── FLOATING PARTICLES (mist/stars above the wave) ──
+  const PCNT = 1800;
+  const pGeo = new THREE.BufferGeometry();
+  const pPos = new Float32Array(PCNT*3);
+  const pCol = new Float32Array(PCNT*3);
+  const pSz  = new Float32Array(PCNT);
+  const C1=new THREE.Color(0x5B6AF0), C2=new THREE.Color(0x8B5CF6), C3=new THREE.Color(0x22d3ee);
+  for(let i=0;i<PCNT;i++){
+    const i3=i*3;
+    pPos[i3]   = (Math.random()-.5)*100;
+    pPos[i3+1] = Math.random()*30 - 4;
+    pPos[i3+2] = (Math.random()-.5)*100;
+    pSz[i] = Math.random()*1.8+.3;
+    const r=Math.random(), c = r<.45?C1:r<.72?C2:C3;
+    const br=.2+Math.random()*.6;
+    pCol[i3]=c.r*br; pCol[i3+1]=c.g*br; pCol[i3+2]=c.b*br;
+  }
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
+  pGeo.setAttribute('color',   new THREE.BufferAttribute(pCol,3));
+  pGeo.setAttribute('size',    new THREE.BufferAttribute(pSz,1));
+  const pMat = new THREE.ShaderMaterial({
+    vertexColors:true, transparent:true, depthWrite:false,
+    blending:THREE.AdditiveBlending,
+    vertexShader:`
+      attribute float size;varying vec3 vC;varying float vA;
+      void main(){
+        vC=color;
+        vec4 mv=modelViewMatrix*vec4(position,1.0);
+        gl_PointSize=size*(280.0/-mv.z);
+        gl_Position=projectionMatrix*mv;
+        vA=smoothstep(55.0,0.0,-mv.z);
+      }`,
+    fragmentShader:`
+      varying vec3 vC;varying float vA;
+      void main(){
+        float d=length(gl_PointCoord-.5);
+        if(d>.5)discard;
+        float a=1.0-smoothstep(.1,.5,d);
+        gl_FragColor=vec4(vC,a*vA*.7);
+      }`
+  });
+  const pMesh = new THREE.Points(pGeo,pMat);
+  scene.add(pMesh);
+
+  // ── AURORA PLANES (like distant glowing horizon in mont-fort) ──
+  function makeAurora(y, z, w, h, color, op){
+    const geo = new THREE.PlaneGeometry(w, h, 20, 4);
+    // distort vertices
+    const pos = geo.attributes.position.array;
+    for(let i=0;i<pos.length;i+=3){
+      pos[i+1] += (Math.random()-.5)*h*0.5;
+    }
+    geo.attributes.position.needsUpdate=true;
+    const mat = new THREE.MeshBasicMaterial({
+      color, transparent:true, opacity:op, side:THREE.DoubleSide,
+      depthWrite:false, blending:THREE.AdditiveBlending
+    });
+    const m = new THREE.Mesh(geo, mat);
+    m.position.set(0, y, z);
+    m.rotation.x = Math.PI * 0.08;
+    return m;
+  }
+  const aur1 = makeAurora(6, -40, 120, 8, 0x2a1b8a, 0.12);
+  const aur2 = makeAurora(10, -50, 100, 5, 0x5B6AF0, 0.07);
+  const aur3 = makeAurora(14, -60, 80,  3, 0x22d3ee, 0.05);
+  scene.add(aur1, aur2, aur3);
+  const auroras = [aur1,aur2,aur3];
+
+  // ── MOUSE & SCROLL ──
+  let mx=0,my=0,scrollY=0,scrollFrac=0;
+  document.addEventListener('mousemove',e=>{
+    mx=(e.clientX/innerWidth-.5)*2;
+    my=(e.clientY/innerHeight-.5)*2;
+  });
+  window.addEventListener('scroll',()=>{
+    scrollY=window.scrollY;
+    scrollFrac=scrollY/Math.max(document.body.scrollHeight-innerHeight,1);
+  });
+
+  // ── RESIZE ──
+  window.addEventListener('resize',()=>{
+    camera.aspect=innerWidth/innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight);
+  });
+
+  // smooth targets
+  let smx=0, smy=0, sScroll=0;
+  let t=0;
+  function animate(){
+    requestAnimationFrame(animate);
+    t+=0.008;
+
+    // smooth lerp
+    smx += (mx-smx)*0.04;
+    smy += (my-smy)*0.04;
+    sScroll += (scrollFrac-sScroll)*0.05;
+
+    // update wave time + mouse
+    waveMat.uniforms.uTime.value = t;
+    waveMat.uniforms.uMouse.value.set(smx, -smy);
+    waveMat.uniforms.uScroll.value = sScroll;
+    wave2Mat.uniforms.uTime.value = t*0.7;
+
+    // camera motion — scroll pulls camera back and tilts
+    camera.position.x = smx*3.5;
+    camera.position.y = 14 + sScroll*10 - smy*2;
+    camera.position.z = 32 + sScroll*8;
+    camera.lookAt(smx*2, sScroll*4, 0);
+
+    // particles slow drift
+    pMesh.rotation.y = t*0.015;
+    pMesh.position.y = Math.sin(t*0.3)*0.8;
+
+    // light columns breathe
+    lightCols.forEach((c,i)=>{
+      c.material.opacity = 0.04 + Math.sin(t*0.8+i*1.3)*0.025;
+      c.rotation.y = t*0.05*(i%2===0?1:-1);
+    });
+
+    // aurora shimmer
+    auroras.forEach((a,i)=>{
+      a.material.opacity = (0.06+i*0.035) * (0.7+Math.sin(t*0.4+i)*0.3);
+      a.position.x = Math.sin(t*0.1+i)*4;
+    });
+
+    renderer.render(scene,camera);
+  }
+  animate();
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// UI SCRIPTS
+// ═══════════════════════════════════════════════════════════════
+
+// CURSOR
+const cur=document.getElementById('cur'), ring=document.getElementById('cur-ring');
+let cx=0,cy=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px'});
+(function rl(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(rl)})();
+document.querySelectorAll('a,button,.sd,.pcard,.acard,.sk-cat').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.cssText+='width:14px;height:14px;background:#fff';ring.style.cssText+='width:46px;height:46px;border-color:rgba(91,106,240,.8)'});
+  el.addEventListener('mouseleave',()=>{cur.style.cssText+='width:8px;height:8px;background:var(--accent)';ring.style.cssText+='width:30px;height:30px;border-color:rgba(91,106,240,.55)'});
+});
+
+// PROGRESS + SCROLLED NAV
+const prog=document.getElementById('prog'), nav=document.getElementById('topnav');
+window.addEventListener('scroll',()=>{
+  prog.style.width=(window.scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';
+  nav.classList.toggle('scrolled',window.scrollY>60);
+});
+
+// REVEAL
+const rvObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
+
+// NAV DOTS
+const secIds=['hero','about','skills','featured','projects','achievements','education','contact'];
+const dots=document.querySelectorAll('.sd');
+const sdObs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){const id=e.target.id;dots.forEach(d=>d.classList.toggle('active',d.dataset.t===id))}});
+},{threshold:.3});
+secIds.forEach(id=>{const el=document.getElementById(id);if(el)sdObs.observe(el)});
+dots.forEach(d=>d.addEventListener('click',()=>document.getElementById(d.dataset.t)?.scrollIntoView({behavior:'smooth'})));
+
+// COUNTERS
+function animInt(el){
+  const to=+el.dataset.to,steps=60;let i=0;
+  const t=setInterval(()=>{i++;el.textContent=Math.round(to*(i/steps));if(i>=steps){el.textContent=to;clearInterval(t)}},22);
+}
+function animFloat(el){
+  const to=+el.dataset.to,steps=60;let i=0;
+  const t=setInterval(()=>{i++;el.textContent=(to*(i/steps)).toFixed(2);if(i>=steps){el.textContent=to;clearInterval(t)}},22);
+}
+const cObs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting&&!e.target._done){
+      e.target._done=1;
+      e.target.classList.contains('countf')?animFloat(e.target):animInt(e.target);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.counter,.countf').forEach(el=>cObs.observe(el));
+
+// 3D TILT
+document.querySelectorAll('.tilt-card').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    const rx=-(e.clientY-r.top-r.height/2)/(r.height/2)*8;
+    const ry= (e.clientX-r.left-r.width/2) /(r.width/2) *8;
+    c.style.transition='transform .08s ease';
+    c.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.025)`;
+  });
+  c.addEventListener('mouseleave',()=>{
+    c.style.transition='transform .55s cubic-bezier(.22,1,.36,1)';
+    c.style.transform='perspective(900px) rotateX(0) rotateY(0) scale(1)';
+  });
+});
+</script>
+</body>
+</html>
