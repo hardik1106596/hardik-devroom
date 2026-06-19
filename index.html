@@ -1,407 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Hardik Sagadhara — Full Stack Developer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+
 </head>
 <body>
 
-<!-- NAV -->
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-globe"></div>
+  <div class="loader-text">Loading Earth textures…</div>
+</div>
+
+<div id="prog"></div>
+<canvas id="bg"></canvas>
+
 <nav>
-  <a href="#hero" class="nav-logo">HS</a>
+  <a href="#hero" class="logo">HS</a>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li><li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li><li><a href="#achievements">Achievements</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="mailto:hardik@example.com" class="nav-cta">Hire Me</a>
-  <div class="hamburger" onclick="toggleMenu(this)">
-    <span></span><span></span>
-  </div>
+  <a href="mailto:hardik@example.com" class="hire">Hire Me</a>
+  <div class="ham" onclick="toggleMenu(this)"><span></span><span></span></div>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="wrapper">
-    <div class="hero-inner">
-      <div class="hero-eyebrow reveal">
-        <div class="hero-eyebrow-dot"></div>
-        <span>Available for opportunities — 2025</span>
-      </div>
-      <h1 class="hero-headline reveal">
-        Hardik<br/>
-        <em>Sagadhara</em>
-      </h1>
-      <div class="hero-bottom reveal">
-        <p class="hero-desc">
-          B.Tech IT student at Dharmsinh Desai University building full-stack systems — from admin dashboards to Java MVC backends. I write clean code that scales.
-        </p>
-        <div class="hero-right">
-          <div style="display:flex;gap:2.5rem;">
-            <div class="hero-stat">
-              <div class="hero-stat-num">300+</div>
-              <div class="hero-stat-label">LeetCode Problems</div>
-            </div>
-            <div class="hero-stat">
-              <div class="hero-stat-num">8.47</div>
-              <div class="hero-stat-label">Current CGPA</div>
-            </div>
-            <div class="hero-stat">
-              <div class="hero-stat-num">5+</div>
-              <div class="hero-stat-label">Projects Shipped</div>
-            </div>
-          </div>
-          <div class="hero-cta-group">
-            <a href="#projects" class="btn-primary">View Work</a>
-            <a href="#contact" class="btn-ghost">Contact</a>
-          </div>
+<section id="hero" style="position:relative">
+  <div class="hfade"></div>
+  <div class="w hc">
+    <div class="heye rv"><div class="hdot"></div><span>Available for opportunities · 2025</span></div>
+    <h1 class="hh rv">Hardik<br/><em>Sagadhara</em></h1>
+    <div class="hbot rv">
+      <p class="hdesc">B.Tech IT student at Dharmsinh Desai University building full-stack systems — from admin dashboards to Java MVC backends. I write clean code that scales.</p>
+      <div class="hright">
+        <div style="display:flex;gap:2.5rem">
+          <div class="hs"><div class="hsn">300+</div><div class="hsl">LeetCode</div></div>
+          <div class="hs"><div class="hsn">8.47</div><div class="hsl">CGPA</div></div>
+          <div class="hs"><div class="hsn">5+</div><div class="hsl">Projects</div></div>
         </div>
+        <div class="hbtns"><a href="#projects" class="btn">View Work</a><a href="#contact" class="btno">Contact</a></div>
       </div>
     </div>
   </div>
 </section>
+<div class="div"></div>
 
-<div class="section-divider"></div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="wrapper">
-    <div class="about-grid">
-      <div class="about-left reveal">
-        <div class="about-section-num">01</div>
-        <span class="section-label">About</span>
-      </div>
-      <div class="about-right reveal">
-        <h2 class="about-headline">
-          Engineering systems<br/>
-          with <em>clarity</em> and<br/>
-          precision.
-        </h2>
-        <p class="about-body">
-          I'm Hardik — a final-year Information Technology student at Dharmsinh Desai University, Nadiad. My work spans the full stack: React frontends, Node.js APIs, Spring Boot microservices, and relational databases.
-        </p>
-        <p class="about-body">
-          I approach every project the same way — understand the problem deeply, architect a clean solution, then ship something that actually works. Whether it's a real-world business website or an order management system, I care about the details.
-        </p>
-        <div class="about-tags">
-          <span class="about-tag">Full Stack</span>
-          <span class="about-tag">Problem Solver</span>
-          <span class="about-tag">Java / JS</span>
-          <span class="about-tag">System Design</span>
-          <span class="about-tag">Clean Code</span>
-          <span class="about-tag">MVC Architecture</span>
-        </div>
-      </div>
+<section id="about"><div class="w"><div class="glass">
+  <div class="ag">
+    <div class="rv"><div class="an">01</div><span class="label">About Me</span></div>
+    <div class="rv">
+      <h2 class="ahl">Engineering systems<br/>with <em>clarity</em> and precision.</h2>
+      <p class="ab">I'm Hardik — a final-year Information Technology student at Dharmsinh Desai University, Nadiad. My work spans the full stack: React frontends, Node.js APIs, Spring Boot microservices, and relational databases.</p>
+      <p class="ab">I approach every project the same way — understand the problem deeply, architect a clean solution, then ship something that works. Whether it's a real business website or an order management system, I care about the details.</p>
+      <div class="atags"><span class="atag">Full Stack</span><span class="atag">Java / JS</span><span class="atag">Problem Solver</span><span class="atag">System Design</span><span class="atag">Clean Code</span><span class="atag">MVC</span><span class="atag">REST APIs</span></div>
     </div>
   </div>
-</section>
+</div></div></section>
+<div class="div"></div>
 
-<div class="section-divider"></div>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="wrapper">
-    <div class="skills-header reveal">
-      <h2 class="skills-headline">Skills &<br/>Technologies</h2>
-      <span class="section-label">02 / Skills</span>
+<section id="skills"><div class="w">
+  <div class="shdr rv"><h2 class="shl">Skills &<br/>Technologies</h2><span class="label">02 / Skills</span></div>
+  <div class="sg rv">
+    <div class="sc"><div class="scat">Languages</div>
+      <div class="si">Java<div class="sd"></div></div><div class="si">JavaScript<div class="sd"></div></div>
+      <div class="si">Python<div class="sd"></div></div><div class="si">C++<div class="sd"></div></div><div class="si">HTML / CSS<div class="sd"></div></div>
     </div>
-    <div class="skills-grid reveal">
-      <div class="skill-col">
-        <div class="skill-col-label">Languages</div>
-        <div class="skill-item">Java <div class="skill-dot"></div></div>
-        <div class="skill-item">JavaScript <div class="skill-dot"></div></div>
-        <div class="skill-item">Python <div class="skill-dot"></div></div>
-        <div class="skill-item">C++ <div class="skill-dot"></div></div>
-        <div class="skill-item">HTML / CSS <div class="skill-dot"></div></div>
-      </div>
-      <div class="skill-col">
-        <div class="skill-col-label">Frontend</div>
-        <div class="skill-item">React <div class="skill-dot"></div></div>
-        <div class="skill-item">Responsive Design <div class="skill-dot"></div></div>
-        <div class="skill-item">REST Consumption <div class="skill-dot"></div></div>
-        <div class="skill-item">JSP <div class="skill-dot"></div></div>
-      </div>
-      <div class="skill-col">
-        <div class="skill-col-label">Backend</div>
-        <div class="skill-item">Node.js <div class="skill-dot"></div></div>
-        <div class="skill-item">Express.js <div class="skill-dot"></div></div>
-        <div class="skill-item">Spring Boot <div class="skill-dot"></div></div>
-        <div class="skill-item">Servlets / JDBC <div class="skill-dot"></div></div>
-        <div class="skill-item">REST APIs <div class="skill-dot"></div></div>
-      </div>
-      <div class="skill-col">
-        <div class="skill-col-label">Data &amp; Tools</div>
-        <div class="skill-item">MySQL <div class="skill-dot"></div></div>
-        <div class="skill-item">PostgreSQL <div class="skill-dot"></div></div>
-        <div class="skill-item">Firebase <div class="skill-dot"></div></div>
-        <div class="skill-item">Git / GitHub <div class="skill-dot"></div></div>
-      </div>
+    <div class="sc"><div class="scat">Frontend</div>
+      <div class="si">React<div class="sd"></div></div><div class="si">Responsive Design<div class="sd"></div></div>
+      <div class="si">JSP<div class="sd"></div></div><div class="si">REST Consumption<div class="sd"></div></div>
+    </div>
+    <div class="sc"><div class="scat">Backend</div>
+      <div class="si">Node.js<div class="sd"></div></div><div class="si">Express.js<div class="sd"></div></div>
+      <div class="si">Spring Boot<div class="sd"></div></div><div class="si">Servlets / JDBC<div class="sd"></div></div><div class="si">REST APIs<div class="sd"></div></div>
+    </div>
+    <div class="sc"><div class="scat">Data & Tools</div>
+      <div class="si">MySQL<div class="sd"></div></div><div class="si">PostgreSQL<div class="sd"></div></div>
+      <div class="si">Firebase<div class="sd"></div></div><div class="si">Git / GitHub<div class="sd"></div></div>
     </div>
   </div>
-</section>
+</div></section>
+<div class="div"></div>
 
-<div class="section-divider"></div>
-
-<!-- FEATURED PROJECT -->
-<section id="featured">
-  <div class="wrapper">
-    <div class="featured-label-row reveal">
-      <span class="section-label">03 / Featured Project</span>
-      <span class="section-label">Basilica Biotech</span>
+<section id="featured"><div class="w">
+  <div class="fhdr rv"><span class="label">03 / Featured Project</span><span class="label">Basilica Biotech</span></div>
+  <div class="fc rv">
+    <div class="fv"><canvas id="feat-c"></canvas>
+      <div class="fvover"><div class="fvlbl">Live Business Project · Cosmetics</div><div class="fvttl">Basilica Biotech</div></div>
     </div>
-    <div class="featured-card reveal">
-      <div class="featured-img">
-        <div class="featured-img-inner">
-          <div class="featured-img-label">Live Business Project</div>
-          <div class="featured-img-title">Basilica<br/>Biotech</div>
-          <div class="mockup-browser">
-            <div class="mockup-bar">
-              <div class="mockup-dot" style="background:#c0463a;"></div>
-              <div class="mockup-dot" style="background:#c8a96e;"></div>
-              <div class="mockup-dot" style="background:#5a8a62;"></div>
-            </div>
-            <div class="mockup-content">
-              <div class="mockup-row" style="width:60%;"></div>
-              <div class="mockup-row" style="width:90%;"></div>
-              <div class="mockup-row" style="width:75%;"></div>
-              <div class="mockup-row" style="width:45%;margin-top:10px;"></div>
-              <div class="mockup-row" style="width:80%;"></div>
-            </div>
-          </div>
-        </div>
+    <div class="fi">
+      <div>
+        <div class="fbadge">Real Business · Production</div>
+        <h3 class="ftitle">Basilica Biotech<br/>Cosmetic Website</h3>
+        <p class="fdesc">A production-grade full-stack application for a real cosmetics business — complete admin dashboard, product management, inventory control, and order tracking backed by PostgreSQL and Node.js.</p>
+        <div class="chips"><span class="chip">Node.js</span><span class="chip">Express.js</span><span class="chip">PostgreSQL</span><span class="chip">React</span><span class="chip">Admin Dashboard</span><span class="chip">REST API</span></div>
       </div>
-      <div class="featured-info">
-        <div class="featured-info-top">
-          <div class="featured-badge">Real Business — Cosmetics</div>
-          <h3 class="featured-title">Basilica Biotech<br/>Cosmetic Website</h3>
-          <p class="featured-desc">
-            A production-grade full-stack web application built for a real cosmetics business. Ships with a complete admin dashboard for product management, inventory control, and order tracking — all backed by PostgreSQL and a Node.js API layer.
-          </p>
-          <div class="featured-stack">
-            <span class="stack-chip">Node.js</span>
-            <span class="stack-chip">Express.js</span>
-            <span class="stack-chip">PostgreSQL</span>
-            <span class="stack-chip">React</span>
-            <span class="stack-chip">Admin Dashboard</span>
-            <span class="stack-chip">REST API</span>
-          </div>
-        </div>
-        <div class="featured-links">
-          <a href="#" class="btn-primary">Live Demo →</a>
-          <a href="#" class="btn-ghost">GitHub</a>
-        </div>
-      </div>
+      <div class="flinks"><a href="#" class="btn">Live Demo →</a><a href="#" class="btno">GitHub</a></div>
     </div>
   </div>
-</section>
+</div></section>
+<div class="div"></div>
 
-<div class="section-divider"></div>
+<section id="projects"><div class="w">
+  <div class="phdr rv"><h2 class="phl">All Projects</h2><span class="label">04 / Projects</span></div>
+  <div class="pg rv">
+    <div class="pc"><div class="pn">01</div><h3 class="pt">CineVerse</h3><p class="pd">Movie discovery platform via TMDB API — real-time search, favorites, modern UI. Demonstrates React state management and external API integration.</p><div class="pfoot"><div class="chips" style="margin:0"><span class="chip">React</span><span class="chip">TMDB API</span></div><a href="#" class="plink">View →</a></div></div>
+    <div class="pc"><div class="pn">02</div><h3 class="pt">Online Order Management System</h3><p class="pd">Enterprise Java using Servlet + JSP + JDBC with strict MVC and MySQL persistence. Backend engineering at its core.</p><div class="pfoot"><div class="chips" style="margin:0"><span class="chip">Java</span><span class="chip">Servlet</span><span class="chip">MySQL</span></div><a href="#" class="plink">GitHub →</a></div></div>
+    <div class="pc"><div class="pn">03</div><h3 class="pt">Food Delivery Application</h3><p class="pd">Full-stack platform from menu browsing to order placement — frontend, backend API, and database fully integrated.</p><div class="pfoot"><div class="chips" style="margin:0"><span class="chip">Full Stack</span><span class="chip">Node.js</span></div><a href="#" class="plink">View →</a></div></div>
+    <div class="pc"><div class="pn">04</div><h3 class="pt">Rohit Sharma Profile Website</h3><p class="pd">Modern responsive frontend focused on clean visual design and typography — frontend craft matters.</p><div class="pfoot"><div class="chips" style="margin:0"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JS</span></div><a href="#" class="plink">View →</a></div></div>
+  </div>
+</div></section>
+<div class="div"></div>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="wrapper">
-    <div class="projects-header reveal">
-      <h2 class="projects-headline">All Projects</h2>
-      <span class="section-label">04 / Projects</span>
-    </div>
-    <div class="projects-grid reveal">
-
-      <div class="project-card">
-        <div class="project-card-num">01</div>
-        <h3 class="project-card-title">CineVerse</h3>
-        <p class="project-card-desc">
-          A movie discovery platform powered by the TMDB API. Features real-time search, a favorites system, and a polished modern UI. Demonstrates practical React state management and external API integration.
-        </p>
-        <div class="project-card-footer">
-          <div class="project-card-stack">
-            <span class="stack-chip">React</span>
-            <span class="stack-chip">TMDB API</span>
-            <span class="stack-chip">CSS</span>
-          </div>
-          <a href="#" class="project-card-link">View →</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-num">02</div>
-        <h3 class="project-card-title">Online Order Management System</h3>
-        <p class="project-card-desc">
-          Enterprise-grade order processing system built in Java using the Servlet + JSP + JDBC stack. Follows strict MVC architecture. Demonstrates backend engineering discipline with MySQL as the persistence layer.
-        </p>
-        <div class="project-card-footer">
-          <div class="project-card-stack">
-            <span class="stack-chip">Java</span>
-            <span class="stack-chip">Servlet</span>
-            <span class="stack-chip">JDBC</span>
-            <span class="stack-chip">MySQL</span>
-          </div>
-          <a href="#" class="project-card-link">GitHub →</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-num">03</div>
-        <h3 class="project-card-title">Food Delivery Application</h3>
-        <p class="project-card-desc">
-          A full-stack food delivery platform covering the end-to-end flow from menu browsing to order placement. Built to practice full-stack integration between frontend, backend API, and database layers.
-        </p>
-        <div class="project-card-footer">
-          <div class="project-card-stack">
-            <span class="stack-chip">Full Stack</span>
-            <span class="stack-chip">Node.js</span>
-            <span class="stack-chip">React</span>
-          </div>
-          <a href="#" class="project-card-link">View →</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-num">04</div>
-        <h3 class="project-card-title">Rohit Sharma Profile Website</h3>
-        <p class="project-card-desc">
-          A modern, responsive frontend tribute site. Focuses on clean visual design, typography, and layout — demonstrating that strong frontend craft is as important as backend engineering.
-        </p>
-        <div class="project-card-footer">
-          <div class="project-card-stack">
-            <span class="stack-chip">HTML</span>
-            <span class="stack-chip">CSS</span>
-            <span class="stack-chip">JavaScript</span>
-          </div>
-          <a href="#" class="project-card-link">View →</a>
-        </div>
-      </div>
-
+<section id="education"><div class="w">
+  <div class="eg2">
+    <div class="rv"><div class="en">05</div><h2 class="ehl">Education</h2></div>
+    <div class="ecard rv">
+      <div class="etop"><div><div class="edeg">B.Tech — Information Technology</div><div class="euni">Dharmsinh Desai University, Nadiad, Gujarat</div></div><div class="eyr">2022 — 2026</div></div>
+      <div class="estats"><div><div class="esn">8.47</div><div class="esl">Latest CGPA</div></div><div><div class="esn">IT</div><div class="esl">Specialisation</div></div><div><div class="esn">2026</div><div class="esl">Graduating</div></div></div>
     </div>
   </div>
-</section>
+</div></section>
+<div class="div"></div>
 
-<div class="section-divider"></div>
-
-<!-- EDUCATION -->
-<section id="education">
-  <div class="wrapper">
-    <div class="edu-grid">
-      <div class="edu-left reveal">
-        <div class="about-section-num">05</div>
-        <h2 class="edu-headline">Education</h2>
-      </div>
-      <div class="edu-card reveal">
-        <div class="edu-card-header">
-          <div>
-            <div class="edu-degree">B.Tech — Information Technology</div>
-            <div class="edu-uni">Dharmsinh Desai University, Nadiad, Gujarat</div>
-          </div>
-          <div class="edu-year">2022 — 2026</div>
-        </div>
-        <div class="edu-stats-row">
-          <div class="edu-stat-item">
-            <div class="edu-stat-num">8.47</div>
-            <div class="edu-stat-label">Latest Semester CGPA</div>
-          </div>
-          <div class="edu-stat-item">
-            <div class="edu-stat-num">IT</div>
-            <div class="edu-stat-label">Specialisation</div>
-          </div>
-          <div class="edu-stat-item">
-            <div class="edu-stat-num">2026</div>
-            <div class="edu-stat-label">Graduating</div>
-          </div>
-        </div>
-      </div>
-    </div>
+<section id="achievements"><div class="w">
+  <div class="rv"><span class="label" style="display:block;margin-bottom:1.5rem">06 / Achievements</span><h2 class="achl">Results that speak.</h2></div>
+  <div class="acg rv">
+    <div class="aci"><div class="acn">300+</div><div class="act">LeetCode Problems</div><div class="acs">Consistent competitive programming across data structures, algorithms, and system design.</div></div>
+    <div class="aci"><div class="acn">2★</div><div class="act">CodeChef Rating</div><div class="acs">Rated competitive programmer — demonstrated through live contest performance under pressure.</div></div>
+    <div class="aci"><div class="acn">8.47</div><div class="act">Academic CGPA</div><div class="acs">Strong academic record maintained alongside active project development and competitive programming.</div></div>
   </div>
-</section>
+</div></section>
+<div class="div"></div>
 
-<div class="section-divider"></div>
-
-<!-- ACHIEVEMENTS -->
-<section id="achievements">
-  <div class="wrapper">
-    <div class="section-label reveal" style="margin-bottom:1.5rem;">06 / Achievements</div>
-    <h2 class="achievements-headline reveal">
-      Results that<br/>speak.
-    </h2>
-    <div class="achievements-grid reveal">
-      <div class="achievement-item">
-        <div class="achievement-num">300+</div>
-        <div class="achievement-title">LeetCode Problems Solved</div>
-        <div class="achievement-sub">Consistent competitive programming practice across data structures, algorithms, and system problems.</div>
-      </div>
-      <div class="achievement-item">
-        <div class="achievement-num">⭐⭐</div>
-        <div class="achievement-title">CodeChef 2 Star</div>
-        <div class="achievement-sub">Rated competitive programmer on CodeChef — demonstrated through live contest performance.</div>
-      </div>
-      <div class="achievement-item">
-        <div class="achievement-num">8.47</div>
-        <div class="achievement-title">Academic CGPA</div>
-        <div class="achievement-sub">Strong academic performance maintained alongside active project development and competitive programming.</div>
-      </div>
-    </div>
+<section id="contact"><div class="w">
+  <div class="ctop rv"><h2 class="chl">Let's<br/><em>build</em><br/>something.</h2><p class="cdesc">Open to full-stack engineering roles, internships, and freelance projects. I respond within 24 hours.</p></div>
+  <div class="cg rv">
+    <a href="mailto:hardik@example.com" class="cl"><div><div class="clbl">Email</div><div class="cval">hardik@example.com</div></div><div class="carr">↗</div></a>
+    <a href="https://github.com/" target="_blank" class="cl"><div><div class="clbl">GitHub</div><div class="cval">github.com/hardik</div></div><div class="carr">↗</div></a>
+    <a href="https://linkedin.com/" target="_blank" class="cl"><div><div class="clbl">LinkedIn</div><div class="cval">linkedin.com/in/hardik</div></div><div class="carr">↗</div></a>
+    <a href="#" class="cl"><div><div class="clbl">Resume</div><div class="cval">Download PDF</div></div><div class="carr">↓</div></a>
   </div>
-</section>
+</div></section>
 
-<div class="section-divider"></div>
+<footer><div class="fl">Hardik Sagadhara — 2025</div><div class="fr">B.Tech IT · Dharmsinh Desai University</div></footer>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="wrapper">
-    <div class="contact-top reveal">
-      <h2 class="contact-headline">
-        Let's<br/>
-        <em>build</em><br/>
-        something.
-      </h2>
-      <p class="contact-desc">
-        Open to full-stack engineering roles, internships, and freelance projects. I respond to every serious enquiry within 24 hours.
-      </p>
-    </div>
-    <div class="contact-links reveal">
-      <a href="mailto:hardik@example.com" class="contact-link-item">
-        <div class="contact-link-left">
-          <div class="contact-link-label">Email</div>
-          <div class="contact-link-value">hardik@example.com</div>
-        </div>
-        <div class="contact-arrow">↗</div>
-      </a>
-      <a href="https://github.com/" target="_blank" class="contact-link-item">
-        <div class="contact-link-left">
-          <div class="contact-link-label">GitHub</div>
-          <div class="contact-link-value">github.com/hardik</div>
-        </div>
-        <div class="contact-arrow">↗</div>
-      </a>
-      <a href="https://linkedin.com/" target="_blank" class="contact-link-item">
-        <div class="contact-link-left">
-          <div class="contact-link-label">LinkedIn</div>
-          <div class="contact-link-value">linkedin.com/in/hardik</div>
-        </div>
-        <div class="contact-arrow">↗</div>
-      </a>
-      <a href="#" class="contact-link-item">
-        <div class="contact-link-left">
-          <div class="contact-link-label">Resume</div>
-          <div class="contact-link-value">Download PDF</div>
-        </div>
-        <div class="contact-arrow">↓</div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-left">Hardik Sagadhara — 2025</div>
-  <div class="footer-right">B.Tech IT · Dharmsinh Desai University</div>
-</footer>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simplex-noise@2.4.0/dist/esm/simplex-noise.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
-
