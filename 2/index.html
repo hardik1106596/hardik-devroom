@@ -265,12 +265,21 @@
     border-top: 1px solid var(--border);
   }
   .stat-num {
-    font-family: var(--font-disp);
-    font-size: 36px; font-weight: 800;
-    color: var(--text);
-    line-height: 1;
-  }
-  .stat-num span[style] { font-size: 28px !important; }
+  font-family: var(--font-disp);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.stat-num span:last-child{
+  color: var(--accent);
+  font-size: 28px;
+}
+
   .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; }
 
   /* PHOTO */
@@ -288,16 +297,17 @@
     position: relative;
   }
   .photo-inner { text-align: center; }
-  .photo-avatar {
-    width: 100px; height: 100px;
-    border-radius: 50%;
-    background: var(--text);
-    color: var(--bg);
-    font-family: var(--font-disp);
-    font-size: 32px;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 12px;
-  }
+  .profile-photo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .4s ease;
+}
+
+.photo-frame:hover .profile-photo{
+  transform:scale(1.05);
+}
   .photo-hint { font-size: 12px; color: var(--muted); }
   .corner {
     position: absolute; width: 20px; height: 20px;
@@ -754,17 +764,36 @@
         <a href="#contact" class="btn-ghost">Get In Touch</a>
       </div>
       <div class="hero-stats">
-        <div><div class="stat-num"><span class="counter" data-to="300">0</span><span>+</span></div><div class="stat-label">LeetCode</div></div>
-        <div><div class="stat-num"><span class="counter" data-to="5">0</span></div><div class="stat-label">Projects</div></div>
-        <div><div class="stat-num"><span class="countf" data-to="8.47">0.00</span></div><div class="stat-label">CGPA</div></div>
+
+    <div>
+        <div class="stat-num">
+          <span class="counter" data-to="300">0</span><span>+</span>
+        </div>
+        <div class="stat-label">LeetCode</div>
       </div>
+
+      <div>
+        <div class="stat-num">
+          <span class="counter" data-to="2">0</span><span>★</span>
+        </div>
+        <div class="stat-label">CodeChef</div>
+      </div>
+
+      <div>
+        <div class="stat-num">
+          <span class="counter" data-to="8">0</span><span>+</span>
+        </div>
+        <div class="stat-label">Projects</div>
+      </div>
+
+    </div>
     </div>
     <div class="hero-right">
       <div class="photo-wrap">
         <div class="photo-frame">
           <div class="photo-inner">
             <div class="photo-avatar">HS</div>
-            <span class="photo-hint">Add your photo</span>
+            <img src="images/profile.png"alt="Hardik Sagadhara"class="profile-photo">
           </div>
         </div>
         <div class="corner tl"></div><div class="corner tr"></div>
@@ -837,7 +866,7 @@
         <div class="info-cell"><div class="info-label">Focus</div><div class="info-val">Full Stack</div></div>
         <div class="info-cell"><div class="info-label">Status</div><div class="info-val" style="color:var(--green)">Open ✓</div></div>
       </div>
-      <a href="#" class="btn-primary" style="width:100%;justify-content:center">Download Resume <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v9M3.5 8l3 3 3-3M1 12h11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="images/Hardik.pdf" class="btn-primary" target="_blank" style="width:100%; justify-content:center">Download Resume <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v9M3.5 8l3 3 3-3M1 12h11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </div>
 </section>
