@@ -26,7 +26,7 @@ Hardik DevRoom is a unique portfolio designed to provide visitors with an engagi
 
 ### Frontend
 
-* React.js
+* HTML5
 * Tailwind CSS
 * Framer Motion
 
@@ -34,7 +34,6 @@ Hardik DevRoom is a unique portfolio designed to provide visitors with an engagi
 
 * Git
 * GitHub
-* Vite
 * Vercel
 
 ## 📂 Sections
@@ -47,6 +46,7 @@ Hardik DevRoom is a unique portfolio designed to provide visitors with an engagi
 * Coding Profiles
 * Resume
 * Contact
+* Experience
 
 ## 📸 Inspiration
 
