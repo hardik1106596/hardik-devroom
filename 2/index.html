@@ -499,6 +499,103 @@
   .b-cards { display: flex; gap: 8px; }
   .b-card { flex: 1; height: 60px; background: var(--bg2); border-radius: 8px; border: 1px solid var(--border); }
 
+  .left-showcase{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
+
+
+
+.browser-preview{
+    background:#fff;
+    border-radius:28px;
+    overflow:hidden;
+    border:1px solid rgba(11, 0, 0, 0.08);
+    box-shadow:0 25px 80px rgba(0,0,0,.08);
+    width:100%;
+}
+
+.browser-top{
+    height:62px;
+    display:flex;
+    align-items:center;
+    padding:0 18px;
+    background:#f8f8f8;
+    border-bottom:1px solid rgba(0,0,0,.06);
+}
+
+.browser-dots{
+    display:flex;
+    gap:8px;
+}
+
+.browser-dots span{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    display:block;
+}
+
+.dot-red{
+    background:#ff5f57;
+}
+
+.dot-yellow{
+    background:#febc2e;
+}
+
+.dot-green{
+    background:#28c840;
+}
+
+.browser-address{
+    flex:1;
+    margin-left:18px;
+    height:38px;
+    border-radius:10px;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    color:#666;
+    border:1px solid rgba(0,0,0,.05);
+}
+
+.browser-screen img{
+    width:100%;
+    display:block;
+    height: 400px;
+    border: #29dd09;
+    border-width: 110px;
+
+}
+
+.feat-grid{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:60px;
+    align-items:center;
+}
+
+@media(max-width:991px){
+    .feat-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(white);
+    color: var(black);
+    font-size: 14px; font-weight: 600;
+    padding: 13px 24px; border-radius: 9px;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    border:1px solid rgb(11, 0, 0);
+  }
+  .btn-secondary:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,86,10,.25); }
+
   .feat-badge {
     display: inline-flex;
     font-size: 11px; font-weight: 700; letter-spacing: .1em;
@@ -925,33 +1022,98 @@
     </div>
   </div>
 </section>
-
 <!-- FEATURED -->
 <section id="featured">
-  <div class="glass"></div>
-  <div class="sec-label rv up">Featured Project</div>
+
   <div class="feat-grid">
-    <div class="browser-card rv lft d1 tilt-card">
-      <div class="b-bar"><div class="b-dot red"></div><div class="b-dot yel"></div><div class="b-dot grn"></div><div class="b-url">basilicabiotech.com</div></div>
-      <div class="b-body">
-        <div class="b-nav"><div class="b-logo">Basilica Biotech</div><div class="b-links"><div class="b-link"></div><div class="b-link"></div><div class="b-link"></div></div></div>
-        <div class="b-hero"><div class="b-h1"></div><div class="b-h2"></div><div class="b-btns"><div class="b-btn1"></div><div class="b-btn2"></div></div></div>
-        <div class="b-cards"><div class="b-card"></div><div class="b-card"></div><div class="b-card"></div></div>
+
+    <!-- LEFT SIDE -->
+    <div class="browser-preview rv lft d1 tilt-card">
+
+      <div class="browser-top">
+        <div class="browser-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+
+        <div class="browser-address">
+          www.basilicabiotech.com
+        </div>
       </div>
+
+      <div class="browser-screen">
+        <img src="images/basilica.png" alt="Basilica Biotech Website">
+      </div>
+
     </div>
+
+    <!-- RIGHT SIDE -->
     <div class="rv rgt d2">
-      <div class="feat-badge">Featured — Real Business Project</div>
-      <h2 class="feat-title">Basilica Biotech<br>Cosmetic Website</h2>
-      <p class="feat-desc">Production-grade website for an actual cosmetics business — full admin dashboard, product management, and PostgreSQL-backed data layer. Built from scratch.</p>
-      <div class="tech-tags"><span class="tech-tag">Node.js</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Express.js</span><span class="tech-tag">HTML/CSS/JS</span><span class="tech-tag">REST API</span></div>
-      <div class="feat-metrics">
-        <div><div class="metric-num">Full</div><div class="metric-label">Admin Dashboard</div></div>
-        <div><div class="metric-num">Real</div><div class="metric-label">Business Client</div></div>
-        <div><div class="metric-num">100%</div><div class="metric-label">Responsive</div></div>
+
+      <div class="feat-badge">
+        Featured — Real Business Project
       </div>
-      <div class="feat-actions"><a href="#" class="btn-primary">Live Demo ↗</a><a href="#" class="btn-ghost">GitHub</a></div>
+
+      <h2 class="feat-title">
+        Basilica Biotech<br>
+        Cosmetic Website
+      </h2>
+
+      <p class="feat-desc">
+        Production-grade website for an actual cosmetics business — full admin dashboard,
+        product management, and PostgreSQL-backed data layer. Built from scratch.
+      </p>
+
+      <div class="tech-tags">
+        <span class="tech-tag">Node.js</span>
+        <span class="tech-tag">PostgreSQL</span>
+        <span class="tech-tag">Express.js</span>
+        <span class="tech-tag">HTML/CSS/JS</span>
+        <span class="tech-tag">REST API</span>
+      </div>
+
+      <div class="feat-metrics">
+        <div>
+          <div class="metric-num">Full</div>
+          <div class="metric-label">Admin Dashboard</div>
+        </div>
+
+        <div>
+          <div class="metric-num">Real</div>
+          <div class="metric-label">Business Client</div>
+        </div>
+
+        <div>
+          <div class="metric-num">100%</div>
+          <div class="metric-label">Responsive</div>
+        </div>
+      </div>
+
+      <div class="feat-actions">
+
+        <a
+          href="https://www.basilicabiotech.com"
+          target="_blank"
+          class="btn-primary"
+        >
+          Live Demo ↗
+        </a>
+
+        <a
+          href="https://github.com/hardik1106596/Cosmetic-Website"
+          target="_blank"
+          class="btn-secondary"
+        >
+          GitHub
+        </a>
+
+      </div>
+
     </div>
+
   </div>
+
 </section>
 
 <!-- PROJECTS -->
