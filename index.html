@@ -173,6 +173,35 @@
   .btn-secondary { display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--text);font-size:14px;font-weight:600;padding:13px 24px;border-radius:9px;transition:background .2s,transform .15s,box-shadow .2s;border:1px solid rgb(11,0,0); }
   .btn-secondary:hover { background:var(--accent);color:white;transform:translateY(-2px);box-shadow:0 8px 28px rgba(217,72,15,.25); }
 
+
+.exp-links{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+    flex-wrap:wrap;
+}
+
+.exp-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 18px;
+    border:1px solid rgba(5, 14, 184, 0.35);
+    border-radius:999px;
+    text-decoration:none;
+    color:#0f16f0;
+    background:rgba(255,255,255,.05);
+    transition:.3s ease;
+    font-weight:600;
+}
+
+.exp-btn:hover{
+    background:#0612fc;
+    color:#111;
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(3, 118, 248, 0.3);
+}
+
   /* ════════════════════════════════════════════════════
      PROJECTS — ROCKET DESCENT TIMELINE
   ════════════════════════════════════════════════════ */
@@ -635,27 +664,97 @@
 <!-- EXPERIENCE -->
 <section id="experience">
   <div class="glass"></div>
+
   <div class="sec-label rv up">Experience</div>
-  <h2 class="sec-h rv up d1" style="margin-bottom:16px">Where I've worked</h2>
+  <h2 class="sec-h rv up d1" style="margin-bottom:16px">Where I've Worked</h2>
+
   <div class="exp-list">
+
+    <!-- RichoraX Internship -->
     <div class="exp-row rv up d1">
-      <div class="exp-period">2024 — Present<br><span class="exp-status">Current</span></div>
+      <div class="exp-period">
+        May 2026 — Jun 2026<br>
+        <span class="exp-status">Internship</span>
+      </div>
+
       <div>
-        <div class="exp-role">Full Stack Developer</div>
-        <div class="exp-org">Freelance — <span>Basilica Biotech</span></div>
-        <p class="exp-desc">Designed and built a production website for a real cosmetics business, including a full admin dashboard, product management system, and PostgreSQL-backed data layer — taken from idea to live deployment.</p>
-        <div class="exp-tags"><span>Node.js</span><span>Express.js</span><span>PostgreSQL</span><span>REST API</span></div>
+        <div class="exp-role">Freelance Web Designer &amp; Developer Intern</div>
+
+        <div class="exp-org">
+          RichoraX Studio
+        </div>
+
+        <p class="exp-desc">
+          Successfully completed a 2-month internship at RichoraX Studio as a
+          Freelance Web Designer &amp; Developer. Worked on web development,
+          UI/UX, graphic design, content creation and digital marketing while
+          contributing to real client projects.
+        </p>
+
+        <div class="exp-tags">
+          <span>HTML</span>
+          <span>CSS</span>
+          <span>JavaScript</span>
+          <span>UI/UX</span>
+          <span>Graphic Design</span>
+          <span>Web Development</span>
+        </div>
+
+        <div class="exp-links">
+          <a href="images/richorax.png"
+             target="_blank"
+             class="exp-btn">
+             🏆 View Certificate
+          </a>
+        </div>
       </div>
     </div>
+
+    <!-- Freelance -->
     <div class="exp-row rv up d2">
-      <div class="exp-period">2022 — Present</div>
+      <div class="exp-period">
+        2025 — Present<br>
+        <span class="exp-status">Freelance</span>
+      </div>
+
       <div>
-        <div class="exp-role">B.Tech Student &amp; Independent Builder</div>
-        <div class="exp-org">Dharmsinh Desai University — <span>Self-Driven Projects</span></div>
-        <p class="exp-desc">Built and shipped 8+ full stack projects spanning Java MVC architecture, React frontends, and REST APIs, while solving 300+ algorithmic problems to sharpen core engineering fundamentals.</p>
-        <div class="exp-tags"><span>Java</span><span>React</span><span>Spring Boot</span><span>MySQL</span><span>Git</span></div>
+        <div class="exp-role">Freelance Data Entry Specialist</div>
+
+        <div class="exp-org">
+          Upwork &amp; Fiverr
+        </div>
+
+        <p class="exp-desc">
+          Providing professional data entry, Excel, PDF conversion, web
+          research, document formatting and virtual assistance services for
+          clients worldwide.
+        </p>
+
+        <div class="exp-tags">
+          <span>Data Entry</span>
+          <span>Excel</span>
+          <span>Google Sheets</span>
+          <span>PDF Conversion</span>
+          <span>Web Research</span>
+        </div>
+
+        <div class="exp-links">
+          <a href="https://www.upwork.com/freelancers/~01754f9a19aa917366?mp_source=share"
+             target="_blank"
+             class="exp-btn">
+             🔗 Upwork
+          </a>
+
+          <a href="https://www.fiverr.com/hardik__2006"
+             target="_blank"
+             class="exp-btn">
+             🔗 Fiverr
+          </a>
+        </div>
+
       </div>
     </div>
+
   </div>
 </section>
 
