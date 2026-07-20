@@ -1,4 +1,4 @@
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
 
   :root {
@@ -193,6 +193,27 @@
     transform:translateY(-2px);
     box-shadow:0 8px 20px rgba(3, 118, 248, 0.3);
 }
+
+  /* ── PROJECT "IN PROGRESS" LABEL (replaces dead # links) ── */
+  .proj-soon {
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--muted);
+    background:var(--bg2);
+    border:1px dashed var(--border);
+    padding:7px 14px;
+    border-radius:100px;
+  }
+  .proj-soon::before {
+    content:'';
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--gold);
+    flex-shrink:0;
+  }
 
   /* ════════════════════════════════════════════════════
      PROJECTS — ROCKET DESCENT TIMELINE
@@ -441,6 +462,12 @@
   .rv.vis { opacity:1!important;transform:none!important; }
   .d1{transition-delay:.05s!important}.d2{transition-delay:.15s!important}.d3{transition-delay:.25s!important}.d4{transition-delay:.35s!important}
   .tilt-card { transition:transform .2s,box-shadow .2s,border-color .2s; }
+
+  /* ── REDUCED MOTION / NO-JS FALLBACK ── */
+  @media (prefers-reduced-motion: reduce) {
+    .rv { opacity:1!important;transform:none!important;transition:none!important; }
+  }
+  .no-js .rv { opacity:1!important;transform:none!important; }
 
   /* ── RESPONSIVE ── */
   @media(max-width:900px){
