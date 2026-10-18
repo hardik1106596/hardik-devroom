@@ -34,7 +34,7 @@ Hardik DevRoom is a unique portfolio designed to provide visitors with an engagi
 
 * Git
 * GitHub
-* Vercel
+  
 
 ## 📂 Sections
 
